@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Market;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-     return view("admin.market.category.index");
+        return view("admin.market.comment.index");
     }
 
     /**
@@ -24,8 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view("admin.market.category.create");
-
+        //
     }
 
     /**
@@ -45,9 +44,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        return view("admin.market.comment.show");
+
     }
 
     /**

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Market;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class BrandController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-     return view("admin.market.category.index");
+        return view("admin.market.brand.index");
     }
 
     /**
@@ -24,8 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view("admin.market.category.create");
-
+        return view("admin.market.brand.create");
     }
 
     /**
@@ -36,7 +35,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
