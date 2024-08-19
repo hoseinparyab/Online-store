@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Content\FAQController;
+use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Market\OrderController;
 use App\Http\Controllers\Admin\Market\StoreController;
@@ -9,10 +11,10 @@ use App\Http\Controllers\Admin\Market\CommentController;
 use App\Http\Controllers\Admin\Market\GalleryController;
 use App\Http\Controllers\Admin\Market\PaymentController;
 use App\Http\Controllers\Admin\Market\ProductController;
-use App\Http\Controllers\Admin\Market\CategoryController;
 use App\Http\Controllers\Admin\Market\DeliveryController;
 use App\Http\Controllers\Admin\Market\DiscountController;
 use App\Http\Controllers\Admin\Market\PropertyController;
+use App\Http\Controllers\Admin\Content\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -141,5 +143,43 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
         });
 
     });
-    
+    // Category
+    Route::prefix('content')->namespace('Content')->group(function () {
+        Route::prefix('category')->group(function () {
+            Route::get('/', [CategoryController::class, 'index'])->name('admin.content.category.index');
+            Route::get('/create', [CategoryController::class, 'create'])->name('admin.content.category.create');
+            Route::post('/store', [CategoryController::class, 'store'])->name('admin.content.category.store');
+            Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('admin.content.category.edit');
+            Route::put('/update/{id}', [CategoryController::class, 'update'])->name('admin.content.category.update');
+            Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('admin.content.category.destroy');
+        });
+        // comment
+        Route::prefix('comment')->group(function () {
+            Route::get('/', [CommentController::class, 'index'])->name('admin.content.comment.index');
+            Route::get('/show', [CommentController::class, 'show'])->name('admin.content.comment.show');
+            Route::post('/store', [CommentController::class, 'store'])->name('admin.content.comment.store');
+            Route::get('/edit/{id}', [CommentController::class, 'edit'])->name('admin.content.comment.edit');
+            Route::put('/update/{id}', [CommentController::class, 'update'])->name('admin.content.comment.update');
+            Route::delete('/destroy/{id}', [CommentController::class, 'destroy'])->name('admin.content.comment.destroy');
+        });
+        // FAQ
+        Route::prefix('faq')->group(function () {
+            Route::get('/', [FAQController::class, 'index'])->name('admin.content.faq.index');
+            Route::get('/create', [FAQController::class, 'create'])->name('admin.content.faq.create');
+            Route::post('/store', [FAQController::class, 'store'])->name('admin.content.faq.store');
+            Route::get('/edit/{id}', [FAQController::class, 'edit'])->name('admin.content.faq.edit');
+            Route::put('/update/{id}', [FAQController::class, 'update'])->name('admin.content.faq.update');
+            Route::delete('/destroy/{id}', [FAQController::class, 'destroy'])->name('admin.content.faq.destroy');
+        });
+        // Menu
+        Route::prefix('menu')->group(function () {
+            Route::get('/', [MenuController::class, 'index'])->name('admin.content.menu.index');
+            Route::get('/create', [MenuController::class, 'create'])->name('admin.content.menu.create');
+            Route::post('/store', [MenuController::class, 'store'])->name('admin.content.menu.store');
+            Route::get('/edit/{id}', [MenuController::class, 'edit'])->name('admin.content.menu.edit');
+            Route::put('/update/{id}', [MenuController::class, 'update'])->name('admin.content.menu.update');
+            Route::delete('/destroy/{id}', [MenuController::class, 'destroy'])->name('admin.content.menu.destroy');
+        });
+
+    });
 });
