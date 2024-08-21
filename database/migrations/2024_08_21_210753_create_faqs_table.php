@@ -13,20 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('faqs', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->text('question');
+            $table->text('answer');
             $table->string('slug')->uniqe()->nullable();
-            $table->text('summary');
-            $table->text('body');
-            $table->text('image');
             $table->tinyInteger('status')->default(0);
-            $table->tinyInteger('commentable')->default(0)->comment('0=> uncommentable,1 => commentable');
             $table->string('tags');
-            $table->timestamp('published_at');
-            $table->tinyInteger('commentable')->default(0)->comment('0=> uncommentable,1 => commentable');
-            $table->foreignId('author_id')->constrained('users');
-            $table->foreignId('category_id')->constrained('post_categories');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -39,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('faqs');
     }
 };
