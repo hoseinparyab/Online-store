@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('common_discount', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('url');
+            $table->integer('percentage');
+            $table->string('title');
+            $table->unsignedBigInteger('discount_ceiling')->nullable();
+            $table->unsignedBigInteger('minimal_order_amount')->nullable();
             $table->tinyInteger('status')->default(0);
-            $table->foreignId('parent_id')->nullable()->constrained('menus');
+            $table->timestamp('start_data')->useCurrent();
+            $table->timestamp('end_data')->useCurrent();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('common_discount');
     }
 };

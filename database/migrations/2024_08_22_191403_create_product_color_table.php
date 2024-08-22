@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('product_color', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('url');
+            $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
+            $table->decimal('price_increase', 20, 3);
             $table->tinyInteger('status')->default(0);
-            $table->foreignId('parent_id')->nullable()->constrained('menus');
+            $table->tinyInteger('sold_number')->default(0);
+            $table->tinyInteger('frozen_number')->default(0);
+            $table->tinyInteger('marketable_number')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('product_color');
     }
 };
