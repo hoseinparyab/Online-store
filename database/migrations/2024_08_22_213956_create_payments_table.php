@@ -13,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('amazing_sales', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->nullable()->constrained('products')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('percentage');
+            $table->decimal('amount', 20, 3);
+            $table->foreignId('ueser_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default(0);
-            $table->timestamp('start_date')->useCurrent();
-            $table->timestamp('end_date')->useCurrent();
+            $table->tinyInteger('type')->default(0)->comment('0=>online , 1=>ofline,2=>cash');
+            $table->unsignedBigInteger('paymentable_id')->default(0);
+            $table->string('paymentable_type')->default(0);
             $table->timestamps();
-            $table->softDeletes();
-
         });
     }
 
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('amazing_sales');
+        Schema::dropIfExists('payments');
     }
 };

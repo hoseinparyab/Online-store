@@ -20,8 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('discount_ceiling')->nullable();
             $table->unsignedBigInteger('minimal_order_amount')->nullable();
             $table->tinyInteger('status')->default(0);
-            $table->timestamp('start_data')->useCurrent();
-            $table->timestamp('end_data')->useCurrent();
+            $table->timestamp('start_date')->useCurrent();
+            $table->timestamp('end_date')->useCurrent();
             $table->timestamps();
             $table->softDeletes();
         });

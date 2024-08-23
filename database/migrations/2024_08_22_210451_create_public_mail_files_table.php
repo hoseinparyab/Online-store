@@ -13,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('amazing_sales', function (Blueprint $table) {
+        Schema::create('public_mail_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->nullable()->constrained('products')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('percentage');
+            $table->foreignId('public_mail_id')->constrained('public_mail')->onUpdate('cascade')->onDelete('cascade');
+            $table->text('file_path');
+            $table->bigInteger('file_size');
+            $table->string('file_type');
             $table->tinyInteger('status')->default(0);
-            $table->timestamp('start_date')->useCurrent();
-            $table->timestamp('end_date')->useCurrent();
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('amazing_sales');
+        Schema::dropIfExists('public_mail_files');
     }
 };
