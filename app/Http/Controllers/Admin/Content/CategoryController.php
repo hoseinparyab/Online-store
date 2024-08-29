@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Content\PostCategory;
+use App\Http\Requests\Admin\Content\PostCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -14,7 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view("admin.content.category.index");
+        $postCategories =PostCategory::orderBy('created_at','desc')->simplePaginate(15);
+        return view("admin.content.category.index",compact('postCategories'));
     }
 
     /**
@@ -33,9 +36,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostCategoryRequest $request)
     {
-        //
+        dd($request);
     }
 
     /**
@@ -55,9 +58,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(PostCategory $postCategory)
     {
-        //
+        dd($postCategory);
     }
 
     /**
@@ -78,8 +81,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(PostCategory $postCategory)
     {
-        //
+        $result = $postCategory->delete();
+        return redirect()-> route("admin.content.category.index");
     }
 }
