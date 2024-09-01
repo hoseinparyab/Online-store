@@ -38,15 +38,13 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(PostCategoryRequest $request)
-    { {
-            $inputs = $request->all();
-            $inputs['slug'] = str_replace(' ', '-', $inputs['name']) . '-' . Str::random(5);
-            $inputs['image'] = 'image';
-            $postCategory = PostCategory::create($inputs);
-            return redirect()->route('admin.content.category.index');
-        }
+    {
+        $inputs = $request->all();
+        $inputs['slug'] = str_replace(' ', '-', $inputs['name']) . '-' . Str::random(5);
+        $inputs['image'] = 'image';
+        $postCategory = PostCategory::create($inputs);
+        return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی با موفقیت ایجاد شد');
     }
-
 
     /**
      * Display the specified resource.
@@ -65,7 +63,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(PostCategory $postCategory) {
+    public function edit(PostCategory $postCategory)
+    {
         return view('admin.content.category.edit', compact('postCategory'));
     }
 
@@ -80,8 +79,8 @@ class CategoryController extends Controller
     {
         $inputs = $request->all();
         $inputs['image'] = 'image';
-        $postCategory ->update($inputs);
-        return redirect()->route('admin.content.category.index');
+        $postCategory->update($inputs);
+        return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی با موفقیت ایجاد شد');
     }
 
     /**
@@ -93,6 +92,23 @@ class CategoryController extends Controller
     public function destroy(PostCategory $postCategory)
     {
         $result = $postCategory->delete();
-        return redirect()->route('admin.content.category.index');
+        return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی با موفقیت حذف شد');
+    }
+
+
+    public function status(PostCategory $postCategory)
+    {
+
+        $postCategory->status = $postCategory->status == 0 ? 1 : 0;
+        $result = $postCategory->save();
+        if ($result) {
+            if ($postCategory->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
+            return response()->json(['status' => false]);
+        }
     }
 }

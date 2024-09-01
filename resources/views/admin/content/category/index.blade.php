@@ -22,6 +22,8 @@
                 <h5>
                   دسته بندی
                 </h5>
+
+                @include('admin.alerts.alert-section.success')
             </section>
 
             <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
@@ -59,7 +61,7 @@
                             <td>{{ $postCategory->tags }}</td>
                             <td>
                                 <label>
-                                    <input type="checkbox" @if ($postCategory->status === 1)
+                                    <input id="{{ $postCategory->id }}" onchange="changeStatus({{ $postCategory->id }})" data-url="{{ route('admin.content.category.status', $postCategory->id) }}" type="checkbox" @if ($postCategory->status === 1)
                                     checked
                                     @endif>
                                 </label>
@@ -84,5 +86,33 @@
         </section>
     </section>
 </section>
+
+@endsection
+@section('script')
+
+    <script type="text/javascript">
+        function changeStatus(id){
+            var element = $("#" + id)
+            var url = element.attr('data-url')
+            var elementValue = !element.prop('checked');
+
+            $.ajax({
+                url : url,
+                type : "GET",
+                success : function(response){
+                    if(response.status){
+                        if(response.checked)
+                        element.prop('checked', true);
+                        else
+                        element.prop('checked', false);
+                    }
+                    else{
+                        element.prop('checked', elementValue);
+                    }
+                }
+            })
+        }
+    </script>
+
 
 @endsection

@@ -160,7 +160,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/edit/{postCategory}', [CategoryController::class, 'edit'])->name('admin.content.category.edit');
             Route::put('/update/{postCategory}', [CategoryController::class, 'update'])->name('admin.content.category.update');
             Route::delete('/destroy/{postCategory}', [CategoryController::class, 'destroy'])->name('admin.content.category.destroy');
-            Route::get('/status/{postCategory}', [CategoryController::class, 'status'])->name('admin.content.category.status');
+            Route::get('/status/{postCategory}',  [CategoryController::class, 'status'])->name('admin.content.category.status');
         });
         // comment
         Route::prefix('comment')->group(function () {
