@@ -19,32 +19,28 @@ class PostCategoryRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
-        dd('hi');
-        if($this->isMethod("post")){
-        return [
-            'name'=>'required|max:120|min:2' ,
-            'description'=>'required|max:500|min:5',
-            'slug'=>'nullable' ,
-            'image'=>'required',
-            'status'=> 'required|numeric|in:0,1',
-            'tag'=>'required'
-        ];
-
-    }
-    else{
-        return [
+        if ($this->isMethod('post')) {
+            return [
+                'name' => 'required|max:120|min:2',
+                'description' => 'required|max:500|min:5',
+                'slug' => 'nullable',
+                'image' => 'required',
+                'status' => 'required|numeric|in:0,1',
+                'tags' => 'required|string|max:255',
+            ];
+        } else {
+            return [
                 'name' => 'required|max:120|min:2',
                 'description' => 'required|max:500|min:5',
                 'slug' => 'nullable',
                 'image' => '',
                 'status' => 'required|numeric|in:0,1',
-                'tag' => 'required'
-
-        ];
+                       'tags' => 'required|string|max:255',
+            ];
+        }
     }
-}}
-
+}

@@ -17,13 +17,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->string('slug')->uniqe()->nullable();
-            $table->text('image');
+            $table->string('slug')->unique()->nullable(); // اصلاح `unique`
+            $table->text('image'); // نوع داده مناسب برای ذخیره مسیر تصویر
             $table->tinyInteger('status')->default(0);
-            $table->string('tag');
+            $table->text('tags'); // تغییر به text برای ذخیره رشته‌های طولانی یا چندگانه
             $table->timestamps();
             $table->softDeletes();
         });
+
     }
 
     /**

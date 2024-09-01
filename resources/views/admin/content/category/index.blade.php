@@ -25,7 +25,7 @@
             </section>
 
             <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                <a href="{{ route('admin.market.category.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
+                <a href="{{ route('admin.content.category.create') }}" class="btn btn-info btn-sm">ایجاد دسته بندی</a>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -37,42 +37,43 @@
                         <tr>
                             <th>#</th>
                             <th>نام دسته بندی</th>
-                            <th> توضیحات</th>
-                            <th> اسلاگ</th>
-                            <th> عکس</th>
-                            <th> تگ ها</th>
-                            <th> وضعیت </th>
-
+                            <th>توضیحات</th>
+                            <th>اسلاگ</th>
+                            <th>عکس</th>
+                            <th>تگ ها</th>
+                            <th>وضعیت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($postCategories as $postCategory )
+                        @foreach ($postCategories as $postCategory)
+
                         <tr>
                             <th>1</th>
-                            <td>{{ $postCategory->name }}	</td>
-                            <td>{{ $postCategory->description }} </td>
-                            <td>{{ $postCategory->slug }} </td>
+                            <td>{{ $postCategory->name }}</td>
+                            <td>{{ $postCategory->description }}</td>
+                            <td>{{ $postCategory->slug }}</td>
                             <td>
-                                <img src="{{ asset($postCategory->image) }} " alt="" width="50" height="50">
+                                <img src="{{ asset($postCategory->image ) }}" alt="" width="50" height="50">
                             </td>
-                            <td>{{ $postCategory->tag }} </td>
+                            <td>{{ $postCategory->tags }}</td>
                             <td>
-                                <label for="">
-                                    <input type="checkbox" @if ($postCategory->status ===1)
+                                <label>
+                                    <input type="checkbox" @if ($postCategory->status === 1)
                                     checked
                                     @endif>
                                 </label>
                             </td>
                             <td class="width-16-rem text-left">
-                                <form class="d-inline" action="{{ route('admin.content.category.destroy', $postCategory->id) }}" method="POST">
+                                <a href="{{ route('admin.content.category.edit', $postCategory->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.content.category.destroy', $postCategory->id) }}" method="post">
                                     @csrf
                                     {{ method_field('delete') }}
-                                    <a href="{{ route('admin.content.category.edit', $postCategory->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                    <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
-                                </form>
+                                <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
+                            </form>
                             </td>
                         </tr>
+
                         @endforeach
 
 
