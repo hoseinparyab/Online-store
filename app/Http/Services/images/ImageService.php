@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Http\Services\Images;
+namespace App\Http\Services\Image;
 
-
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Config;
-use App\Http\Services\Image\ImageToolsService;
+use Intervention\Image\Facades\Image;
 
 class ImageService extends ImageToolsService
 {
+
     public function save($image)
     {
-        // set image
+        //set image
         $this->setImage($image);
-        // execute provider
+        //execute provider
         $this->provider();
-        // save image
-        $result = Image::make($image->getRealPath())->save(public_path($this->getImageAddress()), 60, $this->getImageFormat());
+        //save image
+        $result = Image::make($image->getRealPath())->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
         return $result ? $this->getImageAddress() : false;
-
     }
+
 
     public function fitAndSave($image, $width, $height)
     {
@@ -28,9 +27,10 @@ class ImageService extends ImageToolsService
         //execute provider
         $this->provider();
         //save image
-        $result = Image::make($image->getRealPath())->fit($width, $height)->save(public_path($this->getImageAddress()), 60, $this->getImageFormat());
+        $result = Image::make($image->getRealPath())->fit($width, $height)->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
         return $result ? $this->getImageAddress() : false;
     }
+
     public function createIndexAndSave($image)
     {
         //get data from config
@@ -70,5 +70,36 @@ class ImageService extends ImageToolsService
         $image['currentImage'] = Config::get('image.default-current-index-image');
 
         return $image;
+    }
+
+    public function deleteImage($imagePath)
+    {
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+    }
+
+    public function deleteIndex($images)
+    {
+        $directory = public_path($images['directory']);
+        $this->deleteDirectoryAndFiles($directory);
+    }
+
+    public function deleteDirectoryAndFiles($directory)
+    {
+        if (!is_dir($directory)) {
+            return false;
+        }
+
+        $files = glob($directory . DIRECTORY_SEPARATOR . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                $this->deleteDirectoryAndFiles($file);
+            } else {
+                unlink($file);
+            }
+        }
+        $result = rmdir($directory);
+        return $result;
     }
 }
