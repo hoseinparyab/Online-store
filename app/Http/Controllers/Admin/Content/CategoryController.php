@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Content\PostCategory;
+use App\Http\Services\Image\ImageService;
 use App\Http\Requests\Admin\Content\PostCategoryRequest;
 
 class CategoryController extends Controller
@@ -37,10 +38,17 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostCategoryRequest $request)
+    public function store(PostCategoryRequest $request, ImageService $imageService)
     {
         $inputs = $request->all();
-        $inputs['image'] = 'image';
+        if ($request->hasFile('image')) {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
+            $result = $imageService->createIndexAndSave($request->file('image'));
+        }
+        if ($result === false) {
+            return redirect()->route('admin.content.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+        }
+        $inputs['image'] = $result;
         $postCategory = PostCategory::create($inputs);
         return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
     }
@@ -64,7 +72,7 @@ class CategoryController extends Controller
      */
     public function edit(PostCategory $postCategory)
     {
-       return view('admin.content.category.edit', compact('postCategory'));
+        return view('admin.content.category.edit', compact('postCategory'));
     }
 
     /**
@@ -90,26 +98,24 @@ class CategoryController extends Controller
      */
     public function destroy(PostCategory $postCategory)
     {
-       $result = $postCategory->delete();
-       return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
+        $result = $postCategory->delete();
+        return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
     }
 
 
-    public function status(PostCategory $postCategory){
+    public function status(PostCategory $postCategory)
+    {
 
         $postCategory->status = $postCategory->status == 0 ? 1 : 0;
         $result = $postCategory->save();
-        if($result){
-                if($postCategory->status == 0){
-                    return response()->json(['status' => true, 'checked' => false]);
-                }
-                else{
-                    return response()->json(['status' => true, 'checked' => true]);
-                }
-        }
-        else{
+        if ($result) {
+            if ($postCategory->status == 0) {
+                return response()->json(['status' => true, 'checked' => false]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true]);
+            }
+        } else {
             return response()->json(['status' => false]);
         }
-
     }
 }
