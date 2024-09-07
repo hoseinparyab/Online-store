@@ -158,7 +158,10 @@ return [
         "category_id"               => "دسته بندی",
         'image'                     => 'تصویر',
         'status'                    => 'وضعیت',
-        'tags'                      => 'برچسب ها '
+        'tags'                      => 'برچسب ها ',
+        'summary'                   => 'خلاصه ',
+        'question'                  => 'پرسش ',
+        'ansewr'                    => 'پاسخ ',
 
     ],
 ];
