@@ -37,9 +37,12 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PageRequest $request)
     {
-        //
+        $inputs = $request->all();
+
+        $page = Page::create($inputs);
+        return redirect()->route('admin.content.page.index')->with('swal-success', 'صفحه جدید شما با موفقیت ایجاد شد');;
     }
 
     /**
@@ -59,9 +62,9 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Page $page)
     {
-        //
+        return view('admin.content.page.edit', compact('page'));
     }
 
     /**
@@ -71,9 +74,12 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PageRequest $request ,Page $page)
     {
-        //
+        $inputs = $request->all();
+        //date fixed
+        $page->update($inputs);
+        return redirect()->route('admin.content.page.index')->with('swal-success', 'صفحه   شما با موفقیت ویرایش شد');;
     }
 
     /**
@@ -82,9 +88,10 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Page $page)
     {
-        //
+        $result = $page->delete();
+        return redirect()->route('admin.content.page.index')->with('swal-success', 'صفحه   شما با موفقیت حذف شد');
     }
     public function status(Page $page)
     {
