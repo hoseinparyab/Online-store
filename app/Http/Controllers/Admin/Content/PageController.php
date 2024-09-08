@@ -40,9 +40,8 @@ class PageController extends Controller
     public function store(PageRequest $request)
     {
         $inputs = $request->all();
-
         $page = Page::create($inputs);
-        return redirect()->route('admin.content.page.index')->with('swal-success', 'صفحه جدید شما با موفقیت ایجاد شد');;
+        return redirect()->route('admin.content.page.index')->with('swal-success', 'صفحه جدید شما با موفقیت ایجاد شد');
     }
 
     /**
@@ -79,7 +78,7 @@ class PageController extends Controller
         $inputs = $request->all();
         //date fixed
         $page->update($inputs);
-        return redirect()->route('admin.content.page.index')->with('swal-success', 'صفحه   شما با موفقیت ویرایش شد');;
+        return redirect()->route('admin.content.page.index')->with('swal-success', 'صفحه   شما با موفقیت ویرایش شد');
     }
 
     /**

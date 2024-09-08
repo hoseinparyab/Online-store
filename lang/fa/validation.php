@@ -162,6 +162,8 @@ return [
         'summary'                   => 'خلاصه ',
         'question'                  => 'پرسش ',
         'ansewr'                    => 'پاسخ ',
+        'url'                      => 'آدرس ',
+        'parent_id'                => ' منو  والد',
 
     ],
 ];
