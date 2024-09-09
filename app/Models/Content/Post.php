@@ -22,10 +22,15 @@ class Post extends Model
         ];
     }
     protected $casts = ['image' => 'array'];
-    protected $fillable = ["title", "summary", "slug", "image", "status", "tags","body", "published_at" , "author_id", "category_id" , "commentable"];
+    protected $fillable = ['title', 'summary', 'slug', 'image', 'status', 'tags', 'body', 'published_at', 'author_id', 'category_id', 'commentable'];
 
-  public function postCategory()
-  {
-    return $this->belongsTo(PostCategory::class,"category_id");
-  }
+    public function postCategory()
+    {
+        return $this->belongsTo(PostCategory::class, 'category_id');
+    }
+
+    public function comments()
+    {
+        return $this->morphMany('App\Models\Content\Comment', 'commentable');
+    }
 }
