@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\notify;
+namespace App\Http\Controllers\Admin\Notify;
 
 use App\Models\Notify\Email;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class EmailController extends Controller
      */
     public function create()
     {
-        return view('admin.notify.email.create');
+        return view("admin.notify.email.create");
     }
 
     /**
