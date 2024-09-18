@@ -60,7 +60,7 @@
                                 </label>
                             </td>
                             <td class="width-16-rem text-left">
-                                <a href="{{ route('admin.notify.email.edit', $email->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                <a href="{{ route('admin.notify.email-file.edit', $email->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
                                 <form class="d-inline" action="{{ route('admin.notify.email.destroy', $email->id) }}" method="post">
                                     @csrf
                                     {{ method_field('delete') }}
