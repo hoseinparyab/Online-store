@@ -42,15 +42,15 @@ class ImageToolsService
         return $this->imageName;
     }
 
-    public function setImageName($imageName)
+     public function setImageName($imageName)
     {
         $this->imageName = $imageName;
     }
 
     public function setCurrentImageName()
     {
-        return !empty($this->image) ? $this->setImageName(pathinfo($this->image->getClientOriginalName(), PATHINFO_FILENAME)) : false;
-        // $_FILES['image']['name']
+            return !empty($this->image) ? $this->setImageName(pathinfo($this->image->getClientOriginalName(), PATHINFO_FILENAME)) : false;
+            // $_FILES['image']['name']
     }
 
     public function getImageFormat()
@@ -58,7 +58,7 @@ class ImageToolsService
         return $this->imageFormat;
     }
 
-    public function setImageFormat($imageFormat)
+   public function setImageFormat($imageFormat)
     {
         $this->imageFormat = $imageFormat;
     }
@@ -73,7 +73,7 @@ class ImageToolsService
         $this->finalImageDirectory = $finalImageDirectory;
     }
 
-    public function getFinalImageName()
+   public function getFinalImageName()
     {
         return $this->finalImageName;
     }
@@ -85,7 +85,8 @@ class ImageToolsService
 
     protected function checkDirectory($imageDirectory)
     {
-        if (!file_exists($imageDirectory)) {
+        if(!file_exists($imageDirectory))
+        {
             mkdir($imageDirectory, 0755, true);
         }
     }
@@ -115,4 +116,14 @@ class ImageToolsService
         //check adn create final image directory
         $this->checkDirectory($this->getFinalImageDirectory());
     }
+
+
+
+
+
+
+
+
+
+
 }
