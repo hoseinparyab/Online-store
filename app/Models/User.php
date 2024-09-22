@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Ticket\Ticket;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Ticket\TicketAdmin;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -75,5 +76,9 @@ class User extends Authenticatable
     public function ticketAdmin()
     {
         return $this->hasOne(TicketAdmin::class);
+    }
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
     }
 }
