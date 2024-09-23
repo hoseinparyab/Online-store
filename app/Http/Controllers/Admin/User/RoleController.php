@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Models\User\Role;
 use Illuminate\Http\Request;
+use App\Models\User\Permission;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\User\RoleRequest;
 
 class RoleController extends Controller
 {
@@ -27,7 +29,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view("admin.user.role.create");
+        $permissions = Permission::all();
+        return view("admin.user.role.create", compact('permissions'));
     }
 
     /**
@@ -36,9 +39,14 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        //
+        $inputs = $request->all();
+        $role = Role::create($inputs);
+        $inputs['permissions'] = $inputs['permissions'] ?? [];
+        $role->permissions()->sync($inputs['permissions']);
+        return redirect()->route('admin.user.role.index')->with('swal-success', 'نقش جدید با موفقیت ثبت شد');
+
     }
 
     /**
