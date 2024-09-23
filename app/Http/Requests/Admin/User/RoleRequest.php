@@ -25,13 +25,29 @@ class RoleRequest extends FormRequest
     public function rules()
     {
         $route= Route::current();
-        if($route->getName()==='admin.user.role.store')
+        if($route->getName()==='admin.user.role.store'){
         return [
             'name' => 'required|max:120|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
             'description' => 'required|max:200|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
             'permissions.*' => 'exists:permissions,id',
         ];
+        }
+        elseif($route ->getName()==='admin.user.role.update')
+        {
+
+            return [
+                'name' => 'required|max:120|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
+                'description' => 'required|max:200|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
+            ];
+
+        } elseif ($route->getName() === 'admin.user.role.update') {
+
+            return [
+                'permissions.*' => 'exists:permissions,id',
+            ];
+        }
     }
+
 
     public function attributes()
     {
