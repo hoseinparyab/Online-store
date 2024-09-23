@@ -42,13 +42,19 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($roles as $key => $role)
+
                         <tr>
-                            <th>1</th>
-                            <td>پشتیبان فروش</td>
+                            <th>{{ $key + 1 }}</th>
+                            <td>{{ $role->name }}</td>
                             <td>
-                                1-مشاهده سفارشات <br>
-                                2-مشاهده پرداخت ها <br>
-                                3-مشاهده تخفیف ها  <br>
+                                @if(empty($role->permissions()->get()->toArray()))
+                                <span class="text-danger">برای این نقش هیچ سطح دسترسی تعریف نشده است</span>
+                                @else
+                                @foreach($role->permissions as $permission)
+                                {{ $permission->name }} <br>
+                                @endforeach
+                                @endif
                                 </td>
                             <td class="width-22-rem text-left">
                                 <a href="#" class="btn btn-success btn-sm"><i class="fa fa-user-graduate"></i> دسترسی ها</a>
@@ -56,34 +62,8 @@
                                 <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
                             </td>
                         </tr>
-                        <tr>
-                            <th>2</th>
-                            <td>پشتیبان فروش</td>
-                            <td>
-                                1-مشاهده سفارشات <br>
-                                2-مشاهده پرداخت ها <br>
-                                3-مشاهده تخفیف ها  <br>
-                                </td>
-                            <td class="width-22-rem text-left">
-                                <a href="#" class="btn btn-success btn-sm"><i class="fa fa-user-graduate"></i> دسترسی ها</a>
-                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
-                            </td>
-                        </tr>
-                         <tr>
-                            <th>3</th>
-                            <td>پشتیبان فروش</td>
-                            <td>
-                                1-مشاهده سفارشات <br>
-                                2-مشاهده پرداخت ها <br>
-                                3-مشاهده تخفیف ها  <br>
-                                </td>
-                            <td class="width-22-rem text-left">
-                                <a href="#" class="btn btn-success btn-sm"><i class="fa fa-user-graduate"></i> دسترسی ها</a>
-                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
-                            </td>
-                        </tr>
+
+                        @endforeach
 
 
                     </tbody>
