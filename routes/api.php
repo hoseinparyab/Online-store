@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiPostsController;
+use App\Http\Controllers\Api\ApiCommentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +26,10 @@ Route::namespace('Api')->group(function(){
     Route::put('/posts/{id}', [ApiPostsController::class, 'update']);
     Route::delete('/posts/{id}', [ApiPostsController::class, 'destroy']);
     Route::get('/posts/{id}', [ApiPostsController::class, 'show']);
-
+    //-------------------------------------------///
+    Route::get('/comments',[ApiCommentsController::class,'index']);
+    Route::post('/comments', [ApiCommentsController::class, 'store']);
 });
+
+
+
