@@ -24,4 +24,6 @@ Route::namespace('Api')->group(function(){
     Route::post('/posts', [ApiPostsController::class, 'store']);
     Route::put('/posts/{id}', [ApiPostsController::class, 'update']);
     Route::delete('/posts/{id}', [ApiPostsController::class, 'destroy']);
+    Route::get('/posts/{id}', [ApiPostsController::class, 'show']);
+
 });

@@ -78,7 +78,11 @@ class ApiPostsController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::findOrfail($id);
+        return response()->json([
+            'message' => 'Post retrieved successfully!',
+            'post' => $post,
+        ], 200);
     }
 
     /**
