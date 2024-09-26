@@ -65,8 +65,43 @@ class ApiCommentsController extends Controller
      */
     public function show($id)
     {
-        //
+        $comment = Comment::findOrfail($id);
+        return response()->json([
+            'message' => 'Post retrieved successfully!',
+            'post' => $comment,
+        ], 200);
     }
+
+    public function answer(CommentRequest $request, Comment $comment)
+    {
+        // بررسی اینکه آیا کامنت مورد نظر، کامنت اصلی است و پاسخ ندارد
+        if ($comment->parent == null) {
+            // دریافت داده‌های معتبر شده
+            $validatedData = $request->validated();
+            // تنظیم داده‌های اضافی برای پاسخ
+            $validatedData['author_id'] = 1; // شناسه نویسنده (کاربر لاگین‌شده)
+            $validatedData['parent_id'] = $comment->id;
+            $validatedData['commentable_id'] = $comment->commentable_id;
+            $validatedData['commentable_type'] = $comment->commentable_type;
+            $validatedData['approved'] = 1; // اگر تایید خودکار دارید
+            $validatedData['status'] = 1;
+
+            // ایجاد پاسخ به کامنت
+            $newComment = Comment::create($validatedData);
+
+            // پاسخ JSON به API
+            return response()->json([
+                'message' => 'پاسخ با موفقیت ایجاد شد!',
+                'comment' => $newComment,
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'این کامنت اصلی نیست یا قبلاً پاسخ داده شده است.',
+            ], 422);
+        }
+    }
+
+
 
     /**
      * Update the specified resource in storage.

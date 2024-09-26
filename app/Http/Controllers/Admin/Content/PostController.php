@@ -114,8 +114,6 @@ class PostController extends Controller
                 $inputs['image'] = $image;
             }
         }
-    //  $inputs['slug'] = null; -> create new slug after in update
-
         $post->update($inputs);
         return redirect()->route('admin.content.post.index')->with('swal-success', 'پست  شما با موفقیت ویرایش شد');;
     }

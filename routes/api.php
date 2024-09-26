@@ -29,6 +29,8 @@ Route::namespace('Api')->group(function(){
     //-------------------------------------------///
     Route::get('/comments',[ApiCommentsController::class,'index']);
     Route::post('/comments', [ApiCommentsController::class, 'store']);
+    Route::post('/comments/{comment}/answer', [ApiCommentsController::class, 'answer']);
+    Route::get('/comments/{id}', [ApiCommentsController::class, 'show']);
 });
 
 
