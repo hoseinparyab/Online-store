@@ -16,7 +16,7 @@ class ApiCommentsController extends Controller
      */
     public function index()
     {
-         return Comment::all();
+        return Comment::all();
     }
 
     /**
@@ -32,7 +32,7 @@ class ApiCommentsController extends Controller
             'body' => 'required|string|max:500',
             'author_id' => 'required|exists:users,id',
             'commentable_id' => 'required|integer',
-            'commentable_type' => 'require'|'string', // اطمینان از مدل‌های مجاز
+            'commentable_type' => 'require' | 'string', // اطمینان از مدل‌های مجاز
             'approved' => 'required|numeric|in:0,1',
             'status' => 'required|numeric|in:0,1',
             'parent_id' => 'nullable|integer',  // اگر از کامنت‌های سلسله‌مراتبی استفاده می‌کنید
