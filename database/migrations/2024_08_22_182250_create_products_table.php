@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('slug')->uniqe()->nullable();
             $table->text('image');
             $table->decimal('weight',10,2)->comment('cm unit');
-            $table->decimal('lenght', 10, 1)->comment('cm unit');
+            $table->decimal('length', 10, 1)->comment('cm unit');
             $table->decimal('height', 10, 1)->comment('cm unit');
             $table->decimal('price', 20, 3);
             $table->tinyInteger('status')->default(0);

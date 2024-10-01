@@ -50,7 +50,7 @@
                             <th>{{ $loop->iteration }}</th>
                             <td>{{ $product->name }}</td>
                             <td>
-                                <img src="{{ asset($product->image) }}"  alt="" class="max-height-2rem">
+                                <img src="{{ asset($product->image['indexArray'][$product->image['currentImage']] ) }}" alt="" width="100" height="50">
                             </td>
                             <td>{{ $product->price }} تومان</td>
                             <td>کالا الکترونیکی</td>
@@ -62,9 +62,11 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a href="" class="dropdown-item text-right"><i class="fa fa-images"></i> گالری</a>
                                         <a href="" class="dropdown-item text-right"><i class="fa fa-list-ul"></i> قرم کالا</a>
-                                        <a href="" class="dropdown-item text-right"><i class="fa fa-edit"></i> ویرایش</a>
-                                        <form action="" method="POST">
-                                            <button type="submit" class="dropdown-item text-right"><i class="fa fa-window-close"></i> حذف</button>
+                                        <a href="{{ route('admin.market.product.edit', $product->id) }}" class="dropdown-item text-right"><i class="fa fa-edit"></i> ویرایش</a>
+                                        <form class="d-inline" action="{{ route('admin.market.product.destroy', $product->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item text-right delete"><i class="fa fa-window-close"></i> حذف</button>
                                         </form>
                                     </div>
                                 </div>
@@ -81,5 +83,11 @@
         </section>
     </section>
 </section>
+
+@endsection
+@section('script')
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+
 
 @endsection
