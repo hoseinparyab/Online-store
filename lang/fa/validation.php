@@ -178,6 +178,9 @@ return [
         'height' => 'ارتفاع',
         'price' => 'قیمت',
         'introduction' => 'توضیحات',
+        'meta_key.*' =>'ویژگی',
+        'meta_value.*' => 'مقدار',
+
 
     ],
 ];

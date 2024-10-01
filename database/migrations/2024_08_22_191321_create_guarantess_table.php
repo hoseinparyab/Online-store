@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('guarantess', function (Blueprint $table) {
+        Schema::create('guarantees', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
-            $table->decimal('price_increase', 20, 3);
+            $table->decimal('price_increase', 20, 3)->default(0);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('guarantess');
+        Schema::dropIfExists('guarantees');
     }
 };

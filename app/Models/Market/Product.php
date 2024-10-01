@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Product extends Model
 {
     use HasFactory, SoftDeletes, Sluggable;
-
     public function sluggable(): array
     {
         return [
@@ -36,5 +35,9 @@ class Product extends Model
     public function metas()
     {
         return $this->hasMany(ProductMeta::class);
+    }
+    public function colors()
+    {
+        return $this->hasMany(ProductColor::class);
     }
 }

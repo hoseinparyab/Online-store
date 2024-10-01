@@ -24,12 +24,13 @@ return new class extends Migration
             $table->integer('number')->default(1);
             $table->decimal('final_product_price', 20, 3)->nullable();
             $table->decimal('final_total_price', 20, 3)->nullable()->comment('number * final_product_price');
-            $table->foreignId('color_id')->nullable()->constrained('product_color')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('guarantess_id')->nullable()->constrained('guarantess')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('color_id')->nullable()->constrained('product_colors')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('guarantee_id')->nullable()->constrained('guarantees')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
     }
+
 
     /**
      * Reverse the migrations.

@@ -17,13 +17,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('color_id')->nullable()->constrained('product_color')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('guarantee_id')->nullable()->constrained('guarantess')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('color_id')->nullable()->constrained('product_colors')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('guarantee_id')->nullable()->constrained('guarantees')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('number')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
     }
+
 
     /**
      * Reverse the migrations.
