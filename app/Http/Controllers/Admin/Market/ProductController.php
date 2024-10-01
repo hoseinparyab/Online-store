@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Market;
 
-use App\Http\Controllers\Controller;
+use App\Models\Market\Brand;
 use Illuminate\Http\Request;
+use App\Models\Market\Product;
+use App\Http\Controllers\Controller;
+use App\Models\Market\ProductCategory;
 
 class ProductController extends Controller
 {
@@ -14,8 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view("admin.market.product.index");
-    }
+        $products = Product::orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('admin.market.product.index', compact('products'));    }
 
     /**
      * Show the form for creating a new resource.
@@ -24,7 +27,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view("admin.market.product.create");
+        $productCategories = ProductCategory::all();
+        $brands = Brand::all();
+        return view('admin.market.product.create', compact('productCategories', 'brands'));
     }
 
     /**
@@ -35,7 +40,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
