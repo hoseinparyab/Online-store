@@ -171,16 +171,17 @@ return [
         'delivery_time_unit' => 'واحد زمان ارسال',
         'original_name' => 'نام اصلی',
         'persian_name' => 'نام فارسی',
-        'brand_id' => 'نام برند',
+        'brand_id' => 'برند',
         'weight' => 'وزن',
         'length' => 'طول',
         'width' => 'عرض',
         'height' => 'ارتفاع',
         'price' => 'قیمت',
         'introduction' => 'توضیحات',
-        'meta_key.*' =>'ویژگی',
-        'meta_value.*' => 'مقدار',
-
+        'persian_name' => 'نام فارسی',
+        'price_increase' => 'افزایش قیمت',
+        'color_name' => 'نام رنگ',
+        'unit' => 'واحد اندازه گیری',
 
     ],
 ];

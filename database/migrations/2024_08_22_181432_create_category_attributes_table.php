@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category_attributes', function (Blueprint $table) {
+           Schema::create('category_attributes', function (Blueprint $table) {
             $table->id();
-            $table->string('subject')->nullable();
+            $table->string('name');
             $table->tinyInteger('type')->default(0);
             $table->string('unit');
             $table->foreignId('category_id')->constrained('product_categories')->onUpdate('cascade')->onDelete('cascade');
-            
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
