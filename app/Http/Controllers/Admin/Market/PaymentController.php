@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Admin\Market;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Market\Payment;
+use App\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {
     public function index()
     {
-        return view("admin.market.payment.index");
+        $payments = Payment::all();
+        return view('admin.market.payment.index', compact('payments'));
     }
     public function online()
     {
