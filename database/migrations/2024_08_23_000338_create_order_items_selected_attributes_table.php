@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order_items_selected_attributes', function (Blueprint $table) {
+        Schema::create('order_item_selected_attributes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_item_id')->constrained('order_items')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('category_attribute_id')->constrained('category_attributes')->onUpdate('cascade')->onDelete('cascade');

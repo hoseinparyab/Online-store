@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Market;
 
+use App\Models\User;
+use App\Models\Market\Copan;
 use Illuminate\Http\Request;
 use App\Models\Market\Product;
 use App\Models\Market\AmazingSale;
 use App\Http\Controllers\Controller;
 use App\Models\Market\CommonDiscount;
+use App\Http\Requests\Admin\Market\CopanRequest;
 use App\Http\Requests\Admin\Market\AmazingSaleRequest;
 use App\Http\Requests\Admin\Market\CommonDiscountRequest;
 
@@ -15,11 +18,13 @@ class DiscountController extends Controller
 
     public function copan()
     {
-        return view('admin.market.discount.copan');
+        $copans = Copan::all();
+        return view('admin.market.discount.copan', compact('copans'));
     }
     public function copanCreate()
     {
-        return view('admin.market.discount.copan-create');
+        $users= User::all();
+        return view('admin.market.discount.copan-create', compact('users'));
     }
     public function commonDiscount()
     {
@@ -114,5 +119,19 @@ class DiscountController extends Controller
     {
         $result = $amazingSale->delete();
         return redirect()->route('admin.market.discount.amazingSale')->with('swal-success', ' تخفیف  شما با موفقیت حذف شد');
+    }
+    public function copanStore(CopanRequest $request)
+    {
+        $inputs = $request->all();
+        //date fixed
+        $realTimestampStart = substr($request->start_date, 0, 10);
+        $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
+        $realTimestampEnd = substr($request->end_date, 0, 10);
+        $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampEnd);
+        if($inputs ['type']==0){
+            $inputs['user_id']=null;
+        }
+        $copanDiscount = Copan::create($inputs);
+        return redirect()->route('admin.market.discount.copan')->with('swal-success', 'کد تخفیف جدید شما با موفقیت ثبت شد');
     }
 }
