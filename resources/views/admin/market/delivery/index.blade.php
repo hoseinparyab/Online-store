@@ -31,7 +31,7 @@ dd
                 </div>
             </section>
 
-            <section class="table-responsive">
+            <secticancelon class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
@@ -72,7 +72,7 @@ dd
 
                     </tbody>
                 </table>
-            </section>
+            </secticancelon>
 
         </section>
     </section>
