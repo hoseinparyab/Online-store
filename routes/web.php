@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Admin\Market\PropertyValueController;
 use App\Http\Controllers\Admin\Ticket\TicketCategoryController;
 use App\Http\Controllers\Admin\Ticket\TicketPriorityController;
+use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
 use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
 
@@ -385,7 +386,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
 });
 
 Route::namespace('Auth')->group(function(){
-
+    Route::get('login-register',[LoginRegisterController::class ,'loginRegisterForm'])->name('auth.customer.login-register-form');
 });
 
 Route::get('/', function () {
