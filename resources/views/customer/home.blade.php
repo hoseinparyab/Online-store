@@ -361,7 +361,26 @@
                             </section>
                             <section class="item">
                                 <section class="lazyload-item-wrapper">
-
+                                    <section class="product">
+                                        <section class="product-add-to-cart"><a href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="افزودن به سبد خرید"><i class="fa fa-cart-plus"></i></a></section>
+                                        <section class="product-add-to-favorite"><a href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="افزودن به علاقه مندی"><i class="fa fa-heart"></i></a></section>
+                                        <a class="product-link" href="#">
+                                            <section class="product-image">
+                                                <img class="" src="assets/images/products/3.jpg" alt="">
+                                            </section>
+                                            <section class="product-name"><h3>پکیج آموزش خطاطی و خوشنویسی با کد 624</h3></section>
+                                            <section class="product-price-wrapper">
+                                                <section class="product-price">115,000 تومان</section>
+                                            </section>
+                                            <section class="product-colors">
+                                                <section class="product-colors-item" style="background-color: yellow;"></section>
+                                                <section class="product-colors-item" style="background-color: green;"></section>
+                                                <section class="product-colors-item" style="background-color: white;"></section>
+                                                <section class="product-colors-item" style="background-color: blue;"></section>
+                                                <section class="product-colors-item" style="background-color: red;"></section>
+                                            </section>
+                                        </a>
+                                    </section>
                                 </section>
                             </section>
                             <section class="item">
