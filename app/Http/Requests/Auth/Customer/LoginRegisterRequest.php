@@ -19,19 +19,20 @@ class LoginRegisterRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
         return [
-            'id' => 'required|min:11|max:64/^[a-zA-Z0-9_0@\+ ]*$/',
-
+            'id' => 'required|min:11|max:64|regex:/^[a-zA-Z0-9_.@\+]*$/',
         ];
     }
+
+
     public function attributes()
     {
         return [
-            'id' => ' ایمیل یا شماره موبایل'
+            'id' => 'ایمیل یا شماره موبایل'
         ];
     }
 }
