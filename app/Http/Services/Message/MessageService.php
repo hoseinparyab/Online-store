@@ -4,7 +4,7 @@ namespace App\Http\Services\Message;
 
 use App\Http\Interfaces\MessageInterface;
 
-class MessageSerivce
+class MessageService
 {
     private $message;
 

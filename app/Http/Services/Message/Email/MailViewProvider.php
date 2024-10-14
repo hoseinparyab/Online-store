@@ -15,10 +15,11 @@ class MailViewProvider extends Mailable
 
     public function __construct($details, $subject, $from)
     {
-        $details->details = $details;
-        $details->subject = $subject;
-        $details->from = $from;
+        $this->details = $details;
+        $this->subject = $subject;
+        $this->from = $from;
     }
+
     public function build()
     {
         return $this->subject($this->subject)->view('emails.send-otp');
