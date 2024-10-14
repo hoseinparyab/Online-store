@@ -82,8 +82,11 @@ class LoginRegisterController extends Controller
 
             $messagesService = new MessageSerivce($smsService);
         }
+        elseif($type===1 )
+        {
+            
+        }
 
         $messagesService->send();
-        dd('پیامک تست ارسال شد');
     }
 }
