@@ -101,6 +101,15 @@ class LoginRegisterController extends Controller
 
         $messagesService->send();
 
-        dd('ok');
+        return redirect()->route('auth.customer.login-confirm-form',$token );
+    }
+    public function LoginConfirmForm($token)
+    {
+        $otp= Otp::where('token' ,$token)->first();
+        if(empty($otp))
+        {
+            return redirect()->route('auth.customer.login-register-form')->withErrors(['id' => 'ادرس وارد شده معتبر نمیباشد']);
+        }
+        return view('customer.auth.login-confirm', compact('token','otp'));
     }
 }
