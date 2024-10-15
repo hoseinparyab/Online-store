@@ -136,13 +136,15 @@ class LoginRegisterController extends Controller
             $user->update(['mobile_verified_at' => Carbon::now()]);
         } elseif ($otp->type == 1 && empty($user->email_verified_at)) {
             $user->update(['email_verified_at' => Carbon::now()]);
-            
+
         }
         Auth::login($user);
         return redirect()->route('customer.home');
     }
 
-
+    Public function loginResendOtp($token){
+        dd($token);
+    }
 
 
 }
