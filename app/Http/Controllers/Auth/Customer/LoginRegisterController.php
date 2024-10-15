@@ -19,7 +19,7 @@ class LoginRegisterController extends Controller
 {
     public function loginRegisterForm()
     {
-        return view('customer.auth.Login-Register');
+        return view('customer.auth.login-register');
     }
 
     public function loginRegister(LoginRegisterRequest $request)
@@ -87,22 +87,23 @@ class LoginRegisterController extends Controller
         } elseif ($type === 1) {
             $emailService = new EmailService();
             $details = [
-                'title' =>  'ایمیل فعال سازی',
-                'body' =>  " کد فعال سازی : $otpCode",
+                'title' => 'ایمیل فعال سازی',
+                'body' => "کد فعال سازی شما : $otpCode"
             ];
             $emailService->setDetails($details);
-            $emailService->setFrom('noreplay@example.com', 'example');
-            $emailService->setFrom('noreplay@example.com', 'example');
-            $emailService->setsubject('کد احراز هویت');
+            $emailService->setFrom('noreply@example.com', 'example');
+            $emailService->setSubject('کد احراز هویت');
             $emailService->setTo($inputs['id']);
+
             $messagesService = new MessageService($emailService);
         }
-
 
         $messagesService->send();
 
         return redirect()->route('auth.customer.login-confirm-form', $token);
     }
+
+
     public function loginConfirmForm($token)
     {
 
@@ -136,15 +137,64 @@ class LoginRegisterController extends Controller
             $user->update(['mobile_verified_at' => Carbon::now()]);
         } elseif ($otp->type == 1 && empty($user->email_verified_at)) {
             $user->update(['email_verified_at' => Carbon::now()]);
-
         }
         Auth::login($user);
         return redirect()->route('customer.home');
     }
 
-    Public function loginResendOtp($token){
-        dd($token);
+
+    public function loginResendOtp($token)
+    {
+        $otp = Otp::where('token', $token)->where('created_at', '<=', Carbon::now()->subMinutes(5)->toDateTimeString())->first();
+
+        if (empty($otp)) {
+            return redirect()->route('auth.customer.login-register-form', $token)->withErrors(['id' => 'ادرس وارد شده نامعتبر است']);
+        }
+
+
+
+
+        $user = $otp->user()->first();
+        //create otp code
+        $otpCode = rand(111111, 999999);
+        $token = Str::random(60);
+        $otpInputs = [
+            'token' => $token,
+            'user_id' => $user->id,
+            'otp_code' => $otpCode,
+            'login_id' => $otp->login_id,
+            'type' => $otp->type,
+        ];
+
+        Otp::create($otpInputs);
+
+        //send sms or email
+
+        if ($otp->type == 0) {
+            //send sms
+            $smsService = new SmsService();
+            $smsService->setFrom(Config::get('sms.otp_from'));
+            $smsService->setTo(['0' . $user->mobile]);
+            $smsService->setText("مجموعه آمازون \n  کد تایید : $otpCode");
+            $smsService->setIsFlash(true);
+
+            $messagesService = new MessageService($smsService);
+        } elseif ($otp->type === 1) {
+            $emailService = new EmailService();
+            $details = [
+                'title' => 'ایمیل فعال سازی',
+                'body' => "کد فعال سازی شما : $otpCode"
+            ];
+            $emailService->setDetails($details);
+            $emailService->setFrom('noreply@example.com', 'example');
+            $emailService->setSubject('کد احراز هویت');
+            $emailService->setTo($otp->login_id);
+
+            $messagesService = new MessageService($emailService);
+        }
+
+        $messagesService->send();
+
+        return redirect()->route('auth.customer.login-confirm-form', $token);
     }
-
-
 }

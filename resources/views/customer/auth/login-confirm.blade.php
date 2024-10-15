@@ -66,7 +66,7 @@
 @section('script')
 
 @php
-    $timer = ((new \Carbon\Carbon($otp->created_at))->addMinutes(1)->timestamp - \Carbon\Carbon::now()->timestamp) * 1000;
+    $timer = ((new \Carbon\Carbon($otp->created_at))->addMinutes(5)->timestamp - \Carbon\Carbon::now()->timestamp) * 1000;
 @endphp
 
 <script>
