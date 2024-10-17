@@ -31,14 +31,14 @@
             </section>
 
             <section>
-                <form action="{{ route('admin.market.product.store') }}" method="post" id="form" enctype="multipart/form-data">
+                <form action="{{ route('admin.market.product.store') }}" method="post" enctype="multipart/form-data" id="form">
                     @csrf
                     <section class="row">
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="">نام کالا</label>
-                                <input type="text" name="name" value="{{ old('name') }}" class="form-control form-control-sm">
+                                <input type="text" name="name" value="{{ old('name') }}"class="form-control form-control-sm">
                             </div>
                             @error('name')
                             <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
@@ -48,6 +48,7 @@
                             </span>
                         @enderror
                         </section>
+
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
@@ -74,7 +75,7 @@
                             <div class="form-group">
                                 <label for="">انتخاب برند</label>
                                 <select name="brand_id" id="" class="form-control form-control-sm">
-                                    <option value="">دسته را انتخاب کنید</option>
+                                    <option value="">برند را انتخاب کنید</option>
                                     @foreach ($brands as $brand)
                                     <option value="{{ $brand->id }}" @if(old('brand_id') == $brand->id) selected @endif>{{ $brand->original_name }}</option>
                                     @endforeach
@@ -89,6 +90,8 @@
                             </span>
                         @enderror
                         </section>
+
+
 
 
                         <section class="col-12 col-md-6">
@@ -119,10 +122,10 @@
                         @enderror
                         </section>
 
-                           <section class="col-12 col-md-6">
+                        <section class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="">طول</label>
-                                <input type="text" name="length" value="{{ old('length')}}" class="form-control form-control-sm">
+                                <input type="text" name="length" value="{{ old('length') }}" class="form-control form-control-sm">
                             </div>
                             @error('length')
                             <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
@@ -133,7 +136,7 @@
                         @enderror
                         </section>
 
-                           <section class="col-12 col-md-6">
+                        <section class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="">عرض</label>
                                 <input type="text" name="width" value="{{ old('width') }}" class="form-control form-control-sm">
@@ -147,7 +150,7 @@
                         @enderror
                         </section>
 
-                           <section class="col-12 col-md-6">
+                        <section class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="">ارتفاع</label>
                                 <input type="text" name="height" value="{{ old('height') }}" class="form-control form-control-sm">
@@ -161,8 +164,7 @@
                         @enderror
                         </section>
 
-
-                        <section class="col-12">
+                        <section class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="">قیمت کالا</label>
                                 <input type="text" name="price" value="{{ old('price') }}" class="form-control form-control-sm">
@@ -179,7 +181,7 @@
                         <section class="col-12">
                             <div class="form-group">
                                 <label for="">توضیحات</label>
-                                <textarea name="introduction" id="introduction" class="form-control form-control-sm" rows="6">{{ old('introduction') }}</textarea>
+                                <textarea name="introduction" id="introduction" name="introduction" class="form-control form-control-sm" rows="6">{{ old('introduction') }}</textarea>
                             </div>
                             @error('introduction')
                             <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
@@ -189,6 +191,24 @@
                             </span>
                         @enderror
                         </section>
+
+                        <section class="col-12 col-md-6 my-2">
+                            <div class="form-group">
+                                <label for="tags">تگ ها</label>
+                                <input type="hidden" class="form-control form-control-sm"  name="tags" id="tags" value="{{ old('tags') }}">
+                                <select class="select2 form-control form-control-sm" id="select_tags" multiple>
+
+                                </select>
+                            </div>
+                            @error('tags')
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
+                        </section>
+
 
                         <section class="col-12 col-md-6 my-2">
                             <div class="form-group">
@@ -207,6 +227,7 @@
                         @enderror
                         </section>
 
+
                         <section class="col-12 col-md-6 my-2">
                             <div class="form-group">
                                 <label for="marketable">قابل فروش بودن</label>
@@ -224,22 +245,6 @@
                         @enderror
                         </section>
 
-                        <section class="col-12 col-md-6">
-                            <div class="form-group">
-                                <label for="tags">تگ ها</label>
-                                <input type="hidden" class="form-control form-control-sm"  name="tags" id="tags" value="{{ old('tags') }}">
-                                <select class="select2 form-control form-control-sm" id="select_tags" multiple>
-
-                                </select>
-                            </div>
-                            @error('tags')
-                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                        @enderror
-                        </section>
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
@@ -257,9 +262,11 @@
                         </section>
 
 
+
+
                         <section class="col-12 border-top border-bottom py-3 mb-3">
 
-                            <section class="row">
+                            <section class="row meta-product">
 
                                 <section class="col-6 col-md-3">
                                     <div class="form-group">
@@ -309,6 +316,7 @@
 
 @endsection
 
+
 @section('script')
 
     <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
@@ -357,12 +365,12 @@
 </script>
 
 <script>
-    $(function () {
-        $('#btn-copy').on('click', function(){
-            var ele = $(this).parent().prev().clone(true);
-            $(this).before(ele);
+    $(function(){
+        $("#btn-copy").on('click', function(){
+          var ele = $(this).parent().prev().clone(true);
+          $(this).before(ele);
         })
-    })
+      })
 </script>
 
 @endsection

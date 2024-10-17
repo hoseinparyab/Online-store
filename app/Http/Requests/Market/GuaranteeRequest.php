@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Market;
+namespace App\Http\Requests\Market;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductColorRequest extends FormRequest
+class GuaranteeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class ProductColorRequest extends FormRequest
     public function rules()
     {
         return [
-            'color_name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-            'price_increase' => 'required|numeric',
-            'color' => 'required |max:120',
+            'name'  =>  'required',
+            'price_increase' =>  'required|numeric'
         ];
     }
 }
