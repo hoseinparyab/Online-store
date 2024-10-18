@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Content;
 
 use Illuminate\Http\Request;
-
 use App\Models\Content\Banner;
 use App\Http\Controllers\Controller;
 use App\Http\Services\Image\ImageService;
@@ -19,7 +18,7 @@ class BannerController extends Controller
     public function index()
     {
         $banners = Banner::orderBy('created_at', 'desc')->simplePaginate(15);
-        $positions =Banner::$positions;
+        $positions = Banner::$positions;
         return view('admin.content.banner.index', compact('banners', 'positions'));
     }
 
@@ -76,7 +75,7 @@ class BannerController extends Controller
     public function edit(Banner $banner)
     {
         $positions = Banner::$positions;
-        return view('admin.content.banner.edit', compact('banner','positions'));
+        return view('admin.content.banner.edit', compact('banner', 'positions'));
     }
 
     /**
@@ -90,9 +89,8 @@ class BannerController extends Controller
     {
         $inputs = $request->all();
 
-
         if ($request->hasFile('image')) {
-            if (!empty($banner->image)) {
+            if (!empty($banner->image) && is_array($banner->image)) {  // بررسی کنید که $banner->image آرایه باشد
                 $imageService->deleteDirectoryAndFiles($banner->image['directory']);
             }
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'banner');
@@ -102,12 +100,13 @@ class BannerController extends Controller
             }
             $inputs['image'] = $result;
         } else {
-            if (isset($inputs['currentImage']) && !empty($banner->image)) {
+            if (isset($inputs['currentImage']) && !empty($banner->image) && is_array($banner->image)) {  // بررسی کنید که $banner->image آرایه باشد
                 $image = $banner->image;
                 $image['currentImage'] = $inputs['currentImage'];
                 $inputs['image'] = $image;
             }
         }
+
         $banner->update($inputs);
         return redirect()->route('admin.content.banner.index')->with('swal-success', 'بنر  شما با موفقیت ویرایش شد');
     }

@@ -86,7 +86,7 @@ class BrandController extends Controller
     {
         $inputs = $request->all();
 
-        if ($request->hasFile('logo')) {
+       if ($request->hasFile('logo')) {
             if (!empty($brand->logo)) {
                 $imageService->deleteDirectoryAndFiles($brand->logo['directory']);
             }
@@ -107,7 +107,7 @@ class BrandController extends Controller
         return redirect()->route('admin.market.brand.index')->with('swal-success', 'برند شما با موفقیت ویرایش شد');
     }
 
-    /**
+    /** 
      * Remove the specified resource from storage.
      *
      * @param  int  $id
