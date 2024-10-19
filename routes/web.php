@@ -414,7 +414,7 @@ Route::namespace('Auth')->group(function () {
     Route::get('/logout', [LoginRegisterController::class, 'logout'])->name('auth.customer.logout');
 });
 
-
+Route::get('/', [HomeController::class, 'home'])->name('customer.home');
 
 Route::namespace('Market')->group(function () {
 
