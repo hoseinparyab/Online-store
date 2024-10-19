@@ -17,14 +17,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('introduction');
-            $table->string('slug')->uniqe()->nullable();
+            $table->string('slug')->unique()->nullable();
             $table->text('image');
-            $table->decimal('weight',10,2)->comment('cm unit');
+            $table->decimal('weight', 10, 2);
             $table->decimal('length', 10, 1)->comment('cm unit');
+            $table->decimal('width', 10, 1)->comment('cm unit');
             $table->decimal('height', 10, 1)->comment('cm unit');
             $table->decimal('price', 20, 3);
             $table->tinyInteger('status')->default(0);
-            $table->tinyInteger('marketable')->default(1)->comment('1=>marketable,0 => is not marketable');
+            $table->tinyInteger('marketable')->default(1)->comment('1 => marketable, 0 => is not marketable');
             $table->string('tags');
             $table->tinyInteger('sold_number')->default(0);
             $table->tinyInteger('frozen_number')->default(0);
