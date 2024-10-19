@@ -49,11 +49,6 @@ class Product extends Model
         return $this->hasMany(Gallery::class);
     }
 
-    public function values()
-    {
-        return $this->hasMany(CategoryValue::class);
-    }
-
 
     public function comments()
     {
@@ -75,4 +70,9 @@ class Product extends Model
     {
         return $this->amazingSales()->where('start_date', '<', Carbon::now())->where('end_date', '>', Carbon::now())->first();
     }
+    public function values()
+    {
+        return $this->hasMany(CategoryValue::class);
+    }
+
 }
