@@ -75,4 +75,10 @@ class Product extends Model
         return $this->hasMany(CategoryValue::class);
     }
 
+    public function activeComments()
+    {
+        return $this->comments()->where('approved', 1)->whereNull('parent_id')->get();
+    }
+
+
 }
