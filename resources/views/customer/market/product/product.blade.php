@@ -476,7 +476,7 @@
             number = parseFloat($('#number').val());
         }
 
-        if($('#product_discount_price').length != 0)
+        if($('#product-discount-price').length != 0)
         {
             product_discount_price = parseFloat($('#product-discount-price').attr('data-product-discount-price'));
         }
@@ -484,8 +484,17 @@
         //final price
         var product_price = product_original_price + selected_color_price + selected_guarantee_price;
         var final_price = number * (product_price - product_discount_price);
-        $('#product-price').html(product_price);
-        $('#final-price').html(final_price);
+        $('#product-price').html(toFarsiNumber(product_price));
+        $('#final-price').html(toFarsiNumber(final_price));
+    }
+
+    function toFarsiNumber(number)
+    {
+        const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        // add comma
+        number = new Intl.NumberFormat().format(number);
+        //convert to persian
+        return number.toString().replace(/\d/g, x => farsiDigits[x]);
     }
 </script>
 @endsection
