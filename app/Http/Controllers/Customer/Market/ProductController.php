@@ -13,7 +13,9 @@ class ProductController extends Controller
     public function product(Product $product)
     {
         $relatedProducts = Product::all();
-        
+        // Auth::loginUsingId(1);
+
+
         return view('customer.market.product.product', compact('product', 'relatedProducts'));
     }
 
@@ -29,5 +31,19 @@ class ProductController extends Controller
         $inputs['commentable_type'] = Product::class;
         Comment::create($inputs);
         return back();
+    }
+
+    public function addToFavorite(Product $product)
+    {
+        if (Auth::check()) {
+            $product->user()->toggle([Auth::user()->id]);
+            if ($product->user->contains(Auth::user()->id)) {
+                return response()->json(['status' => 1]);
+            } else {
+                return response()->json(['status' => 2]);
+            }
+        } else {
+            return response()->json(['status' => 3]);
+        }
     }
 }
