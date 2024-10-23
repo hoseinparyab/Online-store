@@ -120,7 +120,7 @@
 
                                     @guest
                                     <section class="product-add-to-favorite position-relative" style="top: 0">
-                                        <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
+                                        <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه از علاقه مندی">
                                                 <i class="fa fa-heart"></i>
                                             </button>
                                         </section>
@@ -134,7 +134,7 @@
                                             </section>
                                             @else
                                             <section class="product-add-to-favorite position-relative" style="top: 0">
-                                                <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
+                                                <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="اضافه به علاقه مندی">
                                                     <i class="fa fa-heart"></i>
                                                 </button>
                                             </section>
@@ -589,5 +589,23 @@
            }
        })
     })
+</script>
+<script>
+    //start product introduction, features and comment
+$(document).ready(function() {
+    var s = $("#introduction-features-comments");
+    var pos = s.position();
+    $(window).scroll(function() {
+        var windowpos = $(window).scrollTop();
+
+        if (windowpos >= pos.top) {
+            s.addClass("stick");
+        } else {
+            s.removeClass("stick");
+        }
+    });
+});
+//end product introduction, features and comment
+
 </script>
 @endsection
