@@ -38,7 +38,7 @@ class CartController extends Controller
                     if ($cartItem->number != $request->number) {
                         $cartItem->update(['number' => $request->number]);
                     }
-                    return back();
+                    return back()->with('alert-section-success','محصول مورد نظر به سبد خرید اضافه شد');
                 }
             }
 

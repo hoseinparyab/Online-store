@@ -71,7 +71,8 @@
                                 </section>
                             </section>
                             <section class="product-info">
-
+                                <form id="add_to_cart" action="{{ route('customer.sales-process.add-to-cart',$product) }}" method="POST" class="Product-info">
+                                    @csrf
                                 @php
                                 $colors = $product->colors()->get();
                                   @endphp
@@ -184,12 +185,12 @@
 
                             <section class="">
                                 @if($product->marketable_number > 0)
-                                <a id="next-level" href="#" class="btn btn-danger d-block">افزودن به سبد خرید</a>
+                                <button id="next-level"class="btn btn-danger d-block w-100" onclick="document.getElementById('add_to_cart').submit();">افزودن به سبد خرید</button>
                                 @else
-                                <a id="next-level" href="#" class="btn btn-secondary disabled d-block">محصول نا موجود میباشد</a>
+                                <button id="next-level"class="btn btn-secondary disabled d-block">محصول نا موجود میباشد</button>
                                 @endif
                             </section>
-
+                            </form>
                         </section>
                     </section>
                 </section>
