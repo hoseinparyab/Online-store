@@ -20,7 +20,19 @@ class CartController extends Controller
             return redirect()->route('auth.customer.login-register-form');
         }
     }
-    public function updateCart() {}
+    public function updateCart(Request $request)
+    {
+        $inputs = $request ->all();
+        $cartItems = CartItem::where('user_id',Auth::user()->id)->get();
+        foreach($cartItems as $cartItem)
+        {
+            if(isset($inputs['number'][$cartItem->id])){
+                $cartItem ->update(['number' => $inputs ['number'] [$cartItem->id]]);
+            }
+
+        }
+        return redirect()->route('customer.sales-process.address-and-delivary');
+    }
 
 
     public function addToCart(Product $product, Request $request)
