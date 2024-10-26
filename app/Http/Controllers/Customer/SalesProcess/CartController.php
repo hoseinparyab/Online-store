@@ -20,18 +20,17 @@ class CartController extends Controller
             return redirect()->route('auth.customer.login-register-form');
         }
     }
+
     public function updateCart(Request $request)
     {
-        $inputs = $request ->all();
-        $cartItems = CartItem::where('user_id',Auth::user()->id)->get();
-        foreach($cartItems as $cartItem)
-        {
-            if(isset($inputs['number'][$cartItem->id])){
-                $cartItem ->update(['number' => $inputs ['number'] [$cartItem->id]]);
+        $inputs = $request->all();
+        $cartItems = CartItem::where('user_id', Auth::user()->id)->get();
+        foreach ($cartItems as $cartItem) {
+            if (isset($inputs['number'][$cartItem->id])) {
+                $cartItem->update(['number' => $inputs['number'][$cartItem->id]]);
             }
-
         }
-        return redirect()->route('customer.sales-process.address-and-delivary');
+        return redirect()->route('customer.sales-process.address-and-delivery');
     }
 
 
@@ -58,7 +57,7 @@ class CartController extends Controller
                     if ($cartItem->number != $request->number) {
                         $cartItem->update(['number' => $request->number]);
                     }
-                    return back()->with('alert-section-success','محصول مورد نظر به سبد خرید اضافه شد');
+                    return back();
                 }
             }
 
@@ -70,7 +69,7 @@ class CartController extends Controller
 
             CartItem::create($inputs);
 
-            return back();
+            return back()->with('alert-section-success', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
         } else {
             return redirect()->route('auth.customer.login-register-form');
         }
