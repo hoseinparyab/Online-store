@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer\SalesProcess;
 
 use Illuminate\Http\Request;
+use App\Models\Market\CartItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,5 +17,11 @@ class AddressController extends Controller
         if (empty($user->mobile) || empty($user->first_name) || empty($user->last_name) || empty($user->email) || empty($user->nation_code)) {
             return redirect()->route('customer.sales-process.profile-completion');
         }
+        if(empty(CartItem::where('user_id',$user->id)->count))
+        {
+
+            return redirect()->route('customer.sales-process.cart');
+        }
+        return view('customer.sales-process.address-and-delivery');
     }
 }
