@@ -27,8 +27,8 @@ class profileCompletionRequest extends FormRequest
         return [
             'first_name' => 'sometimes|required',
             'last_name' => 'sometimes|required',
-            'email' => ' sometimes|nullable|email|unique:users,email',
-            'mobile' => 'sometimes|nullable|required|min:10|max:13||unique:users,mobile',
+            'email' => ' sometimes|required|email|unique:users,email',
+            'mobile' => 'sometimes|required|min:10|max:13||unique:users,mobile',
             'national_code' => ['sometimes|required|unique:users,national_code',new NationalCode()],
         ];
     }
