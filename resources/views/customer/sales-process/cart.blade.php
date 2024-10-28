@@ -106,7 +106,7 @@
 
 
                             <section class="">
-                                <button onclick="document.getElementById('cart_items').submit();" href="address.html" class="btn btn-danger d-block">تکمیل فرآیند خرید</button>
+                                <button onclick="document.getElementById('cart_items').submit();" class="btn btn-danger d-block">تکمیل فرآیند خرید</button>
                             </section>
 
                         </section>
