@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Customer\SalesProcess;
 use Illuminate\Http\Request;
 use App\Models\Market\Address;
 use App\Models\Market\CartItem;
+use App\Models\Market\Delivery;
 use App\Models\Market\Province;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Customer\SalesProcess\StoreAddressRequest;
+use App\Http\Requests\Customer\SalesProcess\UpdateAddressRequest;
 
 class AddressController extends Controller
 {
@@ -18,12 +20,13 @@ class AddressController extends Controller
         $user = Auth::user();
         $provinces = Province::all();
         $cartItems = CartItem::where('user_id', $user->id)->get();
+        $deliveryMethods = Delivery::where('status', 1)->get();
 
         if (empty(CartItem::where('user_id', $user->id)->count())) {
             return redirect()->route('customer.sales-process.cart');
         }
 
-        return view('customer.sales-process.address-and-delivery', compact('cartItems', 'provinces'));
+        return view('customer.sales-process.address-and-delivery', compact('cartItems', 'provinces', 'deliveryMethods'));
     }
 
 
@@ -44,6 +47,15 @@ class AddressController extends Controller
         $inputs ['postal_code'] = convertArabicToEnglish($request->postal_code);
         $inputs['postal_code'] = convertArabicToEnglish($inputs['postal_code']);
         $address = Address::create($inputs);
+        return redirect()->back();
+    }
+    public function updateAddress(Address $address, UpdateAddressRequest $request)
+    {
+        $inputs= $request ->all();
+        $inputs['user_id'] = auth()->user()->id;
+        $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
+        $inputs['postal_code'] = convertArabicToEnglish($inputs['postal_code']);
+        $address -> update($inputs);
         return redirect()->back();
     }
 }
