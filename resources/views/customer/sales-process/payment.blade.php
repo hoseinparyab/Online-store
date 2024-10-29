@@ -11,6 +11,11 @@
     <section class="mb-4">
         <section class="container-xxl" >
             <section class="row">
+                @if(session('copan'))
+                <div class="alert alert-success">
+                    {{ session('copan') }}
+                </div>
+                @endif
                 @if ($errors->any())
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -92,6 +97,10 @@
                                         </secrion>
                                     </section>
 
+
+                                <form action="{{ route('customer.sales-process.payment-submit') }}" method="post" id="payment_submit">
+                                    @csrf
+
                                     <input type="radio" name="payment_type" value="1" id="d1"/>
                                     <label for="d1" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
                                         <section class="mb-2">
@@ -131,6 +140,7 @@
                                             پرداخت به پیک هنگام دریافت کالا
                                         </section>
                                     </label>
+                                </form>
 
 
                                 </section>
@@ -212,14 +222,11 @@
                                     این سفارش صورت میگیرد.
                                 </p>
 
-                                <form action="{{ route('customer.sales-process.choose-address-and-delivery') }}" method="post" id="myForm">
-                                @csrf
-                                </form>
 
 
                                 <section class="">
                                     <button type="button"
-                                        onclick="document.getElementById('myForm').submit();"
+                                        onclick="document.getElementById('payment_submit').submit();"
                                         class="btn btn-danger d-block w-100">تکمیل فرآیند خرید</button>
                                 </section>
 
