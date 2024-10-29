@@ -49,10 +49,14 @@
 
                                 <section class="row">
                                     <section class="col-md-5">
+                                        <form action="{{ route('customer.sales-process.copan-discount') }}" method="post">
+                                            @csrf
                                         <section class="input-group input-group-sm">
-                                            <input type="text" class="form-control" placeholder="کد تخفیف را وارد کنید">
-                                            <button class="btn btn-primary" type="button">اعمال کد</button>
+                                                <input type="text" name="copan" class="form-control" placeholder="کد تخفیف را وارد کنید">
+                                                <button class="btn btn-primary" type="submit">اعمال کد</button>
                                         </section>
+                                    </form>
+
                                     </section>
 
                                 </section>
