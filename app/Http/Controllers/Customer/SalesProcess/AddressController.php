@@ -10,6 +10,7 @@ use App\Models\Market\Delivery;
 use App\Models\Market\Province;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Market\CommonDiscount;
 use App\Http\Requests\Customer\SalesProcess\StoreAddressRequest;
 use App\Http\Requests\Customer\SalesProcess\UpdateAddressRequest;
 use App\Http\Requests\Customer\SalesProcess\ChooseAddressAndDeliveryRequest;
@@ -79,9 +80,29 @@ class AddressController extends Controller
             $totalFinalDiscountPriceWithNumbers += $cartItem->cartItemFinalDiscount();
         }
 
+        //commonDiscount
+        $commonDiscount = CommonDiscount::where([['status', 1], ['end_date', '>', now()], ['start_date', '<', now()]])->first();
+        if ($commonDiscount) {
+            $commonPercentageDiscountAmount = $totalFinalPrice * ($commonDiscount->percentage / 100);
+            if ($commonPercentageDiscountAmount > $commonDiscount->discount_ceiling) {
+                $commonPercentageDiscountAmount = $commonDiscount->discount_ceiling;
+            }
+            if ($commonDiscount != null and $totalFinalPrice >= $commonDiscount->minimal_order_amount) {
+                $finalPrice = $totalFinalPrice - $commonPercentageDiscountAmount;
+            } else {
+                $finalPrice = $totalFinalPrice;
+            }
+        } else {
+            $commonPercentageDiscountAmount = null;
+        }
+
+
+
         $inputs['user_id'] = $user->id;
-        $inputs['order_final_amount'] = $totalFinalPrice;
+        $inputs['order_final_amount'] = $finalPrice;
         $inputs['order_discount_amount'] = $totalFinalDiscountPriceWithNumbers;
+        $inputs['order_common_discount_amount'] = $commonPercentageDiscountAmount;
+        $inputs['order_total_products_discount_amount'] = $inputs['order_discount_amount'] + $inputs['order_common_discount_amount'];
         $order = Order::updateOrCreate(
             ['user_id' => $user->id, 'order_status' => 0],
             $inputs
