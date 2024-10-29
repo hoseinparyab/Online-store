@@ -48,41 +48,44 @@ class AddressController extends Controller
         $inputs = $request->all();
         $inputs['user_id'] = auth()->user()->id;
         $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
-        $inputs['postal_code'] = convertArabicToEnglish($inputs['postal_code']);
+        $inputs['postal_code'] = convertPersianToEnglish($inputs['postal_code']);
         $address = Address::create($inputs);
         return redirect()->back();
     }
+
     public function updateAddress(Address $address, UpdateAddressRequest $request)
     {
         $inputs = $request->all();
         $inputs['user_id'] = auth()->user()->id;
         $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
-        $inputs['postal_code'] = convertArabicToEnglish($inputs['postal_code']);
+        $inputs['postal_code'] = convertPersianToEnglish($inputs['postal_code']);
         $address->update($inputs);
         return redirect()->back();
     }
+
     public function chooseAddressAndDelivery(ChooseAddressAndDeliveryRequest $request)
     {
         $user = auth()->user();
         $inputs = $request->all();
 
-        // calc price
+        //calc price
         $cartItems = CartItem::where('user_id', $user->id)->get();
         $totalProductPrice = 0;
         $totalDiscount = 0;
         $totalFinalPrice = 0;
         $totalFinalDiscountPriceWithNumbers = 0;
         foreach ($cartItems as $cartItem) {
-
             $totalProductPrice += $cartItem->cartItemProductPrice();
             $totalDiscount += $cartItem->cartItemProductDiscount();
             $totalFinalPrice += $cartItem->cartItemFinalPrice();
             $totalFinalDiscountPriceWithNumbers += $cartItem->cartItemFinalDiscount();
         }
 
+
         //commonDiscount
         $commonDiscount = CommonDiscount::where([['status', 1], ['end_date', '>', now()], ['start_date', '<', now()]])->first();
         if ($commonDiscount) {
+            $inputs['common_discount_id'] = $commonDiscount->id;
             $commonPercentageDiscountAmount = $totalFinalPrice * ($commonDiscount->percentage / 100);
             if ($commonPercentageDiscountAmount > $commonDiscount->discount_ceiling) {
                 $commonPercentageDiscountAmount = $commonDiscount->discount_ceiling;
@@ -90,12 +93,13 @@ class AddressController extends Controller
             if ($commonDiscount != null and $totalFinalPrice >= $commonDiscount->minimal_order_amount) {
                 $finalPrice = $totalFinalPrice - $commonPercentageDiscountAmount;
             } else {
+
                 $finalPrice = $totalFinalPrice;
             }
         } else {
             $commonPercentageDiscountAmount = null;
+            $finalPrice = $totalFinalPrice;
         }
-
 
 
         $inputs['user_id'] = $user->id;
