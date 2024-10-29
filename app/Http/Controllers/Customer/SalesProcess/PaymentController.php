@@ -9,6 +9,6 @@ class PaymentController extends Controller
 {
     public function payment()
     {
-        dd('hi');
+        return view('customer.sales-process.payment');
     }
 }

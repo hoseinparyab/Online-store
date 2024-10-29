@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer\SalesProcess;
 
+use App\Models\Market\Order;
 use Illuminate\Http\Request;
 use App\Models\Market\Address;
 use App\Models\Market\CartItem;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Customer\SalesProcess\StoreAddressRequest;
 use App\Http\Requests\Customer\SalesProcess\UpdateAddressRequest;
+use App\Http\Requests\Customer\SalesProcess\ChooseAddressAndDeliveryRequest;
 
 class AddressController extends Controller
 {
@@ -44,19 +46,29 @@ class AddressController extends Controller
     {
         $inputs = $request->all();
         $inputs['user_id'] = auth()->user()->id;
-        $inputs ['postal_code'] = convertArabicToEnglish($request->postal_code);
+        $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
         $inputs['postal_code'] = convertArabicToEnglish($inputs['postal_code']);
         $address = Address::create($inputs);
         return redirect()->back();
     }
     public function updateAddress(Address $address, UpdateAddressRequest $request)
     {
-        $inputs= $request ->all();
+        $inputs = $request->all();
         $inputs['user_id'] = auth()->user()->id;
         $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
         $inputs['postal_code'] = convertArabicToEnglish($inputs['postal_code']);
-        $address -> update($inputs);
+        $address->update($inputs);
         return redirect()->back();
     }
+    public function chooseAddressAndDelivery(ChooseAddressAndDeliveryRequest $request)
+    {
+        $user = auth()->user();
+        $inputs = $request->all();
+        $inputs['user_id'] = $user->id;
+        $order = Order::updateOrCreate(
+            ['user_id' => $user->id, 'order_status' => 0],
+            $inputs
+        );
+        return redirect()->route('customer.sales-process.payment');
+    }
 }
-
