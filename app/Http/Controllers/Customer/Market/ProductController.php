@@ -13,9 +13,7 @@ class ProductController extends Controller
     public function product(Product $product)
     {
         $relatedProducts = Product::all();
-        // Auth::loginUsingId(1);
-
-
+        // Auth::loginUsingId(15);
         return view('customer.market.product.product', compact('product', 'relatedProducts'));
     }
 
@@ -32,6 +30,7 @@ class ProductController extends Controller
         Comment::create($inputs);
         return back();
     }
+
 
     public function addToFavorite(Product $product)
     {

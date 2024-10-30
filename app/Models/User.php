@@ -40,7 +40,7 @@ class User extends Authenticatable
         'password',
         'email_verified_at',
         'mobile_verified_at',
-        'national_code',
+        'national_code'
     ];
 
     /**
@@ -83,18 +83,22 @@ class User extends Authenticatable
     {
         return $this->hasOne(TicketAdmin::class);
     }
+
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
     }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class);
     }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);
     }
+
     public function addresses()
     {
         return $this->hasMany(Address::class);
