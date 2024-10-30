@@ -4,8 +4,15 @@
 @section('content')
 
 
+
+
     <!-- start slideshow -->
     <section class="container-xxl my-4">
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
         <section class="row">
             <section class="col-md-8 pe-md-1 ">
                 <section id="slideshow" class="owl-carousel owl-theme">
@@ -284,7 +291,7 @@
     <!-- end brand part-->
 
 
-    <section class="position-fixed p-4 flex-row-reverse" style="z-index: 909999999; left: 0; top: 3rem; width: 26rem; max-width: 80%;">
+    <section class="position-fixed p-4 flex-row-reverse" style="z-index: 909999999; right: 0; top: 3rem; width: 26rem; max-width: 80%;">
         <div class="toast"  data-delay="7000" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
               <strong class="me-auto">فروشگاه</strong>
