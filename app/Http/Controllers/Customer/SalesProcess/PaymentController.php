@@ -29,10 +29,10 @@ class PaymentController extends Controller
             ['copan' => 'required']
         );
 
-        $copan = Copan::where([['code' => $request->code], ['status', 1], ['end_date', '>', now()], ['start_date', '<', now()]])->first();
+        $copan = Copan::where([['code' , $request->copan], ['status', 1], ['end_date', '>', now()], ['start_date', '<', now()]])->first();
         if ($copan != null) {
             if ($copan->user_id != null) {
-                $copan = Copan::where([['code' => $request->code], ['status', 1], ['end_date', '>', now()], ['start_date', '<', now()], ['user_id', auth()->user()->id]])->first();
+                $copan = Copan::where([['code', $request->copan], ['status', 1], ['end_date', '>', now()], ['start_date', '<', now()], ['user_id', auth()->user()->id]])->first();
                 if ($copan == null) {
                     return redirect()->back()->withErrors(['copan' => ['کد تخفیف اشتباه وارد شده است']]);;
                 }
@@ -76,6 +76,7 @@ class PaymentController extends Controller
 
         $order = Order::where('user_id', Auth::user()->id)->where('order_status', 0)->first();
         $cartItems = CartItem::where('user_id', Auth::user()->id)->get();
+        $cash_resciver = null;
 
         switch ($request->payment_type) {
             case '1':
@@ -88,6 +89,7 @@ class PaymentController extends Controller
                 break;
             case '3':
                 $targetModel = CashPayment::class;
+                $cach_receiver= $request ->cach_receiver ? $request->cach_receiver : null;
                 $type = 2;
                 break;
             default:
@@ -98,6 +100,7 @@ class PaymentController extends Controller
             'amount' => $order->order_final_amount,
             'user_id' => auth()->user()->id,
             'pay_date' => now(),
+            'cach_receiver' => $cach_receiver,
             'status' => 1,
         ]);
 

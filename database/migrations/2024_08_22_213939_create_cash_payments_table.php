@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('cash_payments', function (Blueprint $table) {
             $table->id();
             $table->decimal('amount', 20, 3);
-            $table->foreignId('ueser_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->string('cach_receiver')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamp('pay_date');
