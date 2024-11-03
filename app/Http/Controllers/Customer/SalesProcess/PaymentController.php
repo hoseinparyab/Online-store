@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Customer\SalesProcess;
 
-use App\Models\Market\Copan;
-use App\Models\Market\Order;
-use Illuminate\Http\Request;
-use App\Models\Market\Payment;
+use App\Http\Controllers\Controller;
+use App\Http\Services\Payment\PaymentService;
 use App\Models\Market\CartItem;
 use App\Models\Market\CashPayment;
-use App\Http\Controllers\Controller;
-use App\Models\Market\OnlinePayment;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Market\Copan;
 use App\Models\Market\OfflinePayment;
-use Illuminate\Database\Eloquent\Model;
-use App\Http\Services\Payment\PaymentService;
+use App\Models\Market\OnlinePayment;
+use App\Models\Market\Order;
+use App\Models\Market\Payment;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -105,11 +104,6 @@ class PaymentController extends Controller
             'status' => 1,
         ]);
 
-
-        if ($request->payment_type == 1) {
-            $paymentService->zarinpal($order->order_final_amount, $order, $paymented);
-        }
-
         $payment = Payment::create(
             [
                 'amount' => $order->order_final_amount,
@@ -118,33 +112,41 @@ class PaymentController extends Controller
                 'type' => $type,
                 'paymentable_id' => $paymented->id,
                 'paymentable_type' => $targetModel,
-                'staus' => 1
+                'staus' => 1,
             ]
         );
 
-        $order->update(
-            ['order_status' => 3]
-        );
+        if ($request->payment_type == 1) {
+            $paymentService->zarinpal($order->order_final_amount, $paymented, $order);
+        } else {
+            $order->update(
+                ['order_status' => 3]
+            );
 
-        foreach ($cartItems as $cartItem) {
-            $cartItem->delete();
+            foreach ($cartItems as $cartItem) {
+                $cartItem->delete();
+            }
+            return redirect()->route('customer.home')->with('success', 'سفارش شما با موفقیت ثبت شد');
         }
-
-        return redirect()->route('customer.home')->with('success', 'سفارش شما با موفقیت ثبت شد');
     }
 
-
-
-
-
-    public function paymentCallback(Order $order, OnlinePayment $onlinePayment, PaymentService $paymentService)
+    public function paymentCallback(Order $order, OnlinePayment $onlinePayment, paymentService $paymentService)
     {
         $amount = $onlinePayment->amount * 10;
         $result = $paymentService->zarinpalVerify($amount, $onlinePayment);
-        if ($result['success']) {
-            return 'ok';
-        } else {
-            return redirect()->route('customer.home')->with('danger', 'سفارش شما با  خطا مواجه شد');
+        $cartItems = CartItem::where('user_id', Auth::user()->id)->get();
+        foreach ($cartItems as $cartItem) {
+            $cartItem->delete();
         }
+        if ($result['success']) {
+            $order->update(
+                ['order_status' => 3]
+            );
+            return redirect()->route('customer.home')->with('success', 'سفارش شما با موفقیت ثبت شد');
+        }
+        $order->update(
+            ['order_status' => 2]
+        );
+        return redirect()->route('customer.home')->with('danger', 'پرداخت ناموفق بود');
     }
 }
