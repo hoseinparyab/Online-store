@@ -12,18 +12,10 @@ use Illuminate\Http\Client\RequestException;
 class PaymentService
 {
 
-    public function paymentCallback()
-    {
-        $amount = 0;
-        $result = $this->zarinpalVerify($amount);
-        if ($result['success']) {
-            return 'ok';
-        }
-    }
 
-    public function zarinpal()
+
+    public function zarinpal($amount, $order, $onlinePayment)
     {
-        $amount = 0;
         $merchentID = Config::get('payment.zarinpal_api_key');
         $sandbox = false;
         $zarinpalGate = false;
@@ -32,13 +24,12 @@ class PaymentService
         $lang = 'fa';
         $zarinpal = new Zarinpal($merchentID, $client, $lang, $sandbox, $zarinpalGate, $zarinpalGatePSP);
         $payment = [
-            'callback_url' => route('payment-call-back'),
-            'amount' => $amount,
+            'callback_url' => route('customer.sales-process.payment-call-back', [$order, $onlinePayment]),
+            'amount' => (int)$amount * 10,
             'description' => 'the order',
         ];
         try {
             $response = $zarinpal->request($payment);
-            $onlinePayment = OnlinePayment::first();
             $code = $response['data']['code'];
             $message = $zarinpal->getCodeMessage($code);
             if ($code === 100) {
@@ -54,10 +45,10 @@ class PaymentService
 
 
 
-    public function zarinpalVerify($amount)
+    public function zarinpalVerify($amount, $onlinePayment)
     {
         $authority = $_GET['Authority'];
-        $data = ['merchent_id' => Config::get('payment.zarinpal_api_key'), 'authority' => $authority, 'amount' => (int)$amount];
+        $data = ['merchent_id' => Config::get('payment.zarinpal_api_key'), 'authority' => $authority, 'amount' => (int)$amount * 10];
         $jsonData = json_encode($data);
         $ch = curl_init('https://api.zarinpal.com/pg/v4/payment/verify.json');
         curl_setopt($ch, CURLOPT_USERAGENT, 'ZarinPal Rest Api v4');
@@ -71,7 +62,6 @@ class PaymentService
         $result = curl_exec($ch);
         curl_close($ch);
         $result = json_decode($result, true);
-        $onlinePayment = OnlinePayment::first();
         $onlinePayment->update(['bank_second_response' => $result]);
         if (count($result['errors']) === 0) {
             if ($result['data']['code'] == 100) {

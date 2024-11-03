@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('online_payments', function (Blueprint $table) {
             $table->id();
             $table->decimal('amount', 20, 3);
-            $table->foreignId('ueser_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->string('gateway')->nullable();
             $table->string('transaction_id')->nullable();
             $table->text('bank_first_responce')->nullable();

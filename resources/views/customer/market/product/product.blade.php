@@ -71,8 +71,9 @@
                                 </section>
                             </section>
                             <section class="product-info">
-                                <form id="add_to_cart" action="{{ route('customer.sales-process.add-to-cart',$product) }}" method="POST" class="Product-info">
+                                <form id="add_to_cart" action="{{ route('customer.sales-process.add-to-cart', $product) }}" method="post" class="product-info">
                                     @csrf
+
                                 @php
                                 $colors = $product->colors()->get();
                                   @endphp
@@ -128,7 +129,7 @@
                                         @auth
                                             @if ($product->user->contains(auth()->user()->id))
                                             <section class="product-add-to-favorite position-relative" style="top: 0">
-                                                <button class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
+                                                <button type="button" class="btn btn-light btn-sm text-decoration-none" data-url="{{ route('customer.market.add-to-favorite', $product) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="حذف از علاقه مندی">
                                                     <i class="fa fa-heart text-danger"></i>
                                                 </button>
                                             </section>
@@ -185,12 +186,13 @@
 
                             <section class="">
                                 @if($product->marketable_number > 0)
-                                <button id="next-level"class="btn btn-danger d-block w-100" onclick="document.getElementById('add_to_cart').submit();">افزودن به سبد خرید</button>
+                                <button id="next-level" class="btn btn-danger d-block w-100" onclick="document.getElementById('add_to_cart').submit();">افزودن به سبد خرید</button>
                                 @else
-                                <button id="next-level"class="btn btn-secondary disabled d-block">محصول نا موجود میباشد</button>
+                                <button id="next-level" class="btn btn-secondary disabled d-block">محصول نا موجود میباشد</button>
                                 @endif
                             </section>
-                            </form>
+                        </form>
+
                         </section>
                     </section>
                 </section>
@@ -590,8 +592,11 @@
        })
     })
 </script>
+
 <script>
-    //start product introduction, features and comment
+
+
+//start product introduction, features and comment
 $(document).ready(function() {
     var s = $("#introduction-features-comments");
     var pos = s.position();
@@ -606,6 +611,7 @@ $(document).ready(function() {
     });
 });
 //end product introduction, features and comment
+
 
 </script>
 @endsection
