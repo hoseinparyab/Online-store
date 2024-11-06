@@ -37,13 +37,13 @@ use App\Http\Controllers\Customer\SalesProcess\CartController;
 use App\Http\Controllers\Admin\Ticket\TicketCategoryController;
 use App\Http\Controllers\Admin\Ticket\TicketPriorityController;
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
-use App\Http\Controllers\Customer\Profile\ProfileOrderController;
 use App\Http\Controllers\Customer\SalesProcess\AddressController;
 use App\Http\Controllers\Customer\SalesProcess\ProfileCompletionController;
 use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
 use App\Http\Controllers\Customer\Market\ProductController as MarketProductController;
 use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
 use App\Http\Controllers\Customer\SalesProcess\PaymentController as CustomerPaymentController;
+use App\Http\Controllers\Customer\Profile\OrderController as ProfileOrderController;
 
 
 /*
