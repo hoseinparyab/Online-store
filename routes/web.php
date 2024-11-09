@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\Market\GuaranteeController;
 use App\Http\Controllers\Admin\Notify\EmailFileController;
 use App\Http\Controllers\Admin\Ticket\TicketAdminController;
+use App\Http\Controllers\Customer\Profile\ProfileController;
 use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Customer\Profile\FavoriteController;
 use App\Http\Controllers\Admin\Market\PropertyValueController;
@@ -465,6 +466,10 @@ Route::namespace('Profile')->group(function () {
     Route::get('/orders', [ProfileOrderController::class, 'index'])->name('customer.profile.orders');
     Route::get('/my-favorites', [FavoriteController::class, 'index'])->name('customer.profile.my-favorites');
     Route::get('/my-favorites/delete/{product}', [FavoriteController::class, 'delete'])->name('customer.profile.my-favorites.delete');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('customer.profile.profile');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('customer.profile.profile.update');
+
+
 });
 
 
