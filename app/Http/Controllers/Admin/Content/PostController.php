@@ -6,6 +6,7 @@ use App\Models\Content\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Content\PostCategory;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Services\Image\ImageService;
 use App\Http\Requests\Admin\Content\PostRequest;
 
@@ -55,7 +56,7 @@ class PostController extends Controller
             }
             $inputs['image'] = $result;
         }
-        $inputs['author_id'] = 1;
+        $inputs['author_id'] = auth()->user()->id;
         $post = Post::create($inputs);
         return redirect()->route('admin.content.post.index')->with('swal-success', 'پست  جدید شما با موفقیت ثبت شد');
     }
@@ -92,6 +93,10 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post, ImageService $imageService)
     {
+        if(!Gate::allows('update-post' ,$post))
+        {
+            abort(403);
+        }
         $inputs = $request->all();
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);
