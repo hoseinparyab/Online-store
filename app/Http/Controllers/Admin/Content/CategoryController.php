@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Content\PostCategory;
-use App\Http\Services\Image\ImageService;
 use App\Http\Requests\Admin\Content\PostCategoryRequest;
-use App\Http\Services\Image\ImageCacheService;
+use App\Http\Services\Image\ImageService;
+use App\Models\Content\PostCategory;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -19,6 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        // $user = auth()->user();
+        // dd($user->hasRole('admin', 'operator'));
         $postCategories = PostCategory::orderBy('created_at', 'desc')->simplePaginate(15);
         return view('admin.content.category.index', compact('postCategories'));
     }
@@ -109,10 +109,9 @@ class CategoryController extends Controller
                 $inputs['image'] = $image;
             }
         }
-        // $inputs['slug'] = null; اسلاگ جدید با هر اپدیت
+        // $inputs['slug'] = null;
         $postCategory->update($inputs);
         return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
-
     }
 
     /**
@@ -126,7 +125,6 @@ class CategoryController extends Controller
         $result = $postCategory->delete();
         return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
     }
-
 
     public function status(PostCategory $postCategory)
     {
