@@ -70,9 +70,19 @@
                                     @endif>
                                 </label>
                             </td>
-                            <td>سوپر ادمین	</td>
+                            <td>
+                                @forelse($admin->roles as $role)
+                                    <div>
+                                        {{ $role->name }}
+                                    </div>
+                                @empty
+                                    <div class="text-danger">
+                                        نقشی یافت نشد
+                                    </div>
+                                @endforelse
+                            </td>
                             <td class="width-22-rem text-left">
-                                <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> نقش</a>
+                                <a href="{{ route('admin.user.admin-user.roles', $admin->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> نقش</a>
                                 <a href="{{ route('admin.user.admin-user.edit', $admin->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
                                 <form class="d-inline" action="{{ route('admin.user.admin-user.destroy', $admin->id) }}" method="post">
                                     @csrf
