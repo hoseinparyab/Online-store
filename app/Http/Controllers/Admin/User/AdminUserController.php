@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\User;
 use App\Models\User;
 use App\Models\User\Role;
 use Illuminate\Http\Request;
+use App\Models\User\Permission;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Services\Image\ImageService;
@@ -160,6 +161,23 @@ class AdminUserController extends Controller
 
         $admin->roles()->sync($request->roles);
         return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'نقش با موفقیت ویرایش شد');
+    }
+    public function permissions(User $admin)
+    {
+        $permissions = Permission::all();
+
+
+        return view('admin.user.admin-user.permissions', compact('admin', 'permissions'));
+    }
+
+    public function permissionsStore(Request $request, User $admin)
+    {
+        $validated = $request->validate([
+            'permissions' => 'required|exists:permissions,id|array'
+        ]);
+
+        $admin->permissions()->sync($request->permissions);
+        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'سطح دسترسی با موفقیت ویرایش شد');
     }
 }
 
