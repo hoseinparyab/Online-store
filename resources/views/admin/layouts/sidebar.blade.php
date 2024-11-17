@@ -76,10 +76,13 @@
 
 
             <section class="sidebar-part-title">بخش محتوی</section>
+            @role('operator')
             <a href="{{ route('admin.content.category.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>دسته بندی</span>
             </a>
+            @endrole
+
             <a href="{{ route('admin.content.post.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>پست ها</span>
@@ -136,11 +139,11 @@
                 <i class="fas fa-bars"></i>
                 <span> دسته بندی تیکت ها </span>
             </a>
-              <a href="{{ route('admin.ticket.priority.index') }}" class="sidebar-link">
+            <a href="{{ route('admin.ticket.priority.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span> اولویت تیکت ها </span>
             </a>
-              <a href="{{ route('admin.ticket.admin.index') }}" class="sidebar-link">
+            <a href="{{ route('admin.ticket.admin.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span> ادمین تیکت ها </span>
             </a>
