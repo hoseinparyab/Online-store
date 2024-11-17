@@ -20,18 +20,18 @@ class AdminUserController extends Controller
      */
     public function index()
     {
-        $admins= User::where('user_type',1)->get();
-    return view("admin.user.admin-user.index" ,compact('admins'));
+        $admins = User::where('user_type', 1)->get();
+        return view('admin.user.admin-user.index', compact('admins'));
     }
 
     /**
-     * Show the form for creating a neSw resource.
+     * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view("admin.user.admin-user.create");
+        return view('admin.user.admin-user.create');
     }
 
     /**
@@ -40,7 +40,7 @@ class AdminUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AdminUserRequest $request ,ImageService $imageService)
+    public function store(AdminUserRequest $request, ImageService $imageService)
     {
         $inputs = $request->all();
         if ($request->hasFile('profile_photo_path')) {
@@ -87,7 +87,7 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AdminUserRequest $request, User $admin ,ImageService $imageService)
+    public function update(AdminUserRequest $request, User $admin, ImageService $imageService)
     {
         $inputs = $request->all();
 
@@ -103,7 +103,7 @@ class AdminUserController extends Controller
             $inputs['profile_photo_path'] = $result;
         }
         $admin->update($inputs);
-        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'ادمین سایت  شما با موفقیت ویرایش شد');
+        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'ادمین سایت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -115,8 +115,9 @@ class AdminUserController extends Controller
     public function destroy(User $admin)
     {
         $result = $admin->forceDelete();
-        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'ادمین  شما با موفقیت حذف شد');
+        return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'ادمین شما با موفقیت حذف شد');
     }
+
     public function status(User $user)
     {
 
@@ -132,9 +133,9 @@ class AdminUserController extends Controller
             return response()->json(['status' => false]);
         }
     }
+
     public function activation(User $user)
     {
-
         $user->activation = $user->activation == 0 ? 1 : 0;
         $result = $user->save();
         if ($result) {
@@ -147,6 +148,7 @@ class AdminUserController extends Controller
             return response()->json(['status' => false]);
         }
     }
+
     public function roles(User $admin)
     {
         $roles = Role::all();
@@ -162,6 +164,8 @@ class AdminUserController extends Controller
         $admin->roles()->sync($request->roles);
         return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'نقش با موفقیت ویرایش شد');
     }
+
+
     public function permissions(User $admin)
     {
         $permissions = Permission::all();
@@ -180,4 +184,3 @@ class AdminUserController extends Controller
         return redirect()->route('admin.user.admin-user.index')->with('swal-success', 'سطح دسترسی با موفقیت ویرایش شد');
     }
 }
-

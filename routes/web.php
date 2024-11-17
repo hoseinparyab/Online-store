@@ -285,7 +285,8 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     });
     Route::prefix('user')->namespace('User')->group(function () {
 
-        // admin-user
+
+        //admin-user
         Route::prefix('admin-user')->group(function () {
             Route::get('/', [AdminUserController::class, 'index'])->name('admin.user.admin-user.index');
             Route::get('/create', [AdminUserController::class, 'create'])->name('admin.user.admin-user.create');
