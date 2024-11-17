@@ -10,6 +10,16 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
+    function __construct()
+    {
+        // $this->middleware('role:operator')->only(['edit']);
+        // $this->middleware('role:operator')->only(['create']);
+        // $this->middleware('role:accounting')->only(['store']);
+        // $this->middleware('role:operator')->only(['edit']);
+        $this->middleware('can:show-category')->only(['index']);
+        $this->middleware('can:update-category')->only(['edit', 'update']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +28,14 @@ class CategoryController extends Controller
     public function index()
     {
         $user = auth()->user();
+        // if ($user->can('show-category')) {
+
         $postCategories = PostCategory::orderBy('created_at', 'desc')->simplePaginate(15);
         return view('admin.content.category.index', compact('postCategories'));
+        // } else {
+        //     abort(403);
+        // }
+
     }
 
     /**
@@ -141,3 +157,4 @@ class CategoryController extends Controller
         }
     }
 }
+
