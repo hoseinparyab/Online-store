@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-<title>ایجاد نقش</title>
+<title>ویرایش نقش</title>
 @endsection
 
 @section('content')
@@ -11,7 +11,7 @@
       <li class="breadcrumb-item font-size-12"> <a href="#">خانه</a></li>
       <li class="breadcrumb-item font-size-12"> <a href="#">بخش کاربران</a></li>
       <li class="breadcrumb-item font-size-12"> <a href="#">نقش ها</a></li>
-      <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد نقش</li>
+      <li class="breadcrumb-item font-size-12 active" aria-current="page"> ویرایش نقش</li>
     </ol>
   </nav>
 
@@ -21,7 +21,7 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                  ایجاد نقش
+                    ویرایش نقش
                 </h5>
             </section>
 

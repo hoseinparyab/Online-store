@@ -20,42 +20,35 @@ class RoleRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
-        $route= Route::current();
-        if($route->getName()==='admin.user.role.store'){
-        return [
-            'name' => 'required|max:120|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
-            'description' => 'required|max:200|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
-            'permissions.*' => 'exists:permissions,id',
-        ];
-        }
-        elseif($route ->getName()==='admin.user.role.update')
-        {
-
+        $route = Route::current();
+        if ($route->getName() === 'admin.user.role.store') {
             return [
-                'name' => 'required|max:120|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
-                'description' => 'required|max:200|min:1|regex:/^[ا-یa-zA-Zء-ي ]+$/u',
+                'name' => 'required|max:120|min:1',
+                'description' => 'required|max:200|min:1',
+                'permissions.*' => 'exists:permissions,id'
             ];
-
         } elseif ($route->getName() === 'admin.user.role.update') {
-
             return [
-                'permissions.*' => 'exists:permissions,id',
+                'name' => 'required|max:120|min:1',
+                'description' => 'required|max:200|min:1',
+            ];
+        } elseif ($route->getName() === 'admin.user.role.permission-update') {
+            return [
+                'permissions.*' => 'exists:permissions,id'
             ];
         }
     }
-
 
     public function attributes()
     {
-        return  [
+
+        return [
             'name' => 'عنوان نقش',
             'permissions.*' => 'دسترسی'
-    ];
-
+        ];
     }
 }
-

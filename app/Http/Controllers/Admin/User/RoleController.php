@@ -105,6 +105,7 @@ class RoleController extends Controller
 
     public function permissionUpdate(RoleRequest $request, Role $role)
     {
+        
         $inputs = $request->all();
         $inputs['permissions'] = $inputs['permissions'] ?? [];
         $role->permissions()->sync($inputs['permissions']);
