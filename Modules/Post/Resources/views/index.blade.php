@@ -76,23 +76,9 @@
                                 </label>
                             </td>
                             <td class="width-16-rem text-left">
-                                {{-- @can('update', $post) --}}
                                 <a href="{{ route('admin.content.post.edit', $post->id) }}"
                                     class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                {{-- @elsecan('create', App\Models\Content\Post::class) --}}
-                                {{-- @else --}}
-                                <a disabled="disabled" class="btn btn-danger btn-sm disabled"><i class="fa fa-edit"></i>
-                                    دسترسی ندارید</a>
-                                {{-- @endcan --}}
-                                {{-- @cannot('update', $post)
-                                <h1>برو بیرون</h1>
-                                @endcannot --}}
-                                {{-- @if(Auth::user()->can('upate', $post))
-                                @endif --}}
-                                {{-- @canany(['update', 'create', 'delete'], $post)
-                                @elsecanany(['view'])
 
-                                @endcanany --}}
                                 <form class="d-inline" action="{{ route('admin.content.post.destroy', $post->id) }}"
                                     method="post">
                                     @csrf
