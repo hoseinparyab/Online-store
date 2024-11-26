@@ -18,6 +18,12 @@
                         مندی</a></span>
             </section>
             <section class="sidebar-nav-item">
+                <span class="sidebar-nav-item-title"><a class="p-3"
+                        href="{{ route('customer.profile.my-tickets') }}">
+                        مدیریت تیکت ها
+                    </a></span>
+            </section>
+            <section class="sidebar-nav-item">
                 <span class="sidebar-nav-item-title"><a class="p-3" href="{{ route('customer.profile.profile') }}">ویرایش
                         حساب</a></span>
             </section>
