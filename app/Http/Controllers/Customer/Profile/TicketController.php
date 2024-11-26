@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Customer\Profile;
 
 use Illuminate\Http\Request;
 use App\Models\Ticket\Ticket;
+use App\Models\Ticket\TicketFile;
 use App\Http\Controllers\Controller;
 use App\Models\Ticket\TicketCategory;
 use App\Models\Ticket\TicketPriority;
+use App\Http\Services\File\FileService;
 use App\Http\Requests\Customer\Profile\StoreTicketRequest;
 use App\Http\Requests\Customer\Profile\StoreAnswerTicketRequest;
 
@@ -58,12 +60,34 @@ class TicketController extends Controller
         return view('customer.profile.tickets.create', compact('ticketPriorities' , 'ticketCategories'));
 
     }
-    public function store(StoreTicketRequest $request)
+    public function store(StoreTicketRequest $request, FileService $fileService)
     {
+
+        //ticket body
         $inputs = $request->all();
         $inputs['reference_id'] = 1;
         $inputs['user_id'] = auth()->user()->id;
         $ticket = Ticket::create($inputs);
+
+        //ticket file
+        if ($request->hasFile('file')) {
+            $fileService->setExclusiveDirectory('files' . DIRECTORY_SEPARATOR . 'ticket-files');
+            $fileService->setFileSize($request->file('file'));
+            $fileSize = $fileService->getFileSize();
+            // $result = $fileService->moveToPublic($request->file('file'));
+            $result = $fileService->moveToStorage($request->file('file'));
+            $fileFormat = $fileService->getFileFormat();
+        }
+        if ($result === false) {
+            return redirect()->back()->with('swal-error', 'آپلود فایل با خطا مواجه شد');
+        }
+        $inputs['ticket_id'] = $ticket->id;
+        $inputs['file_path'] = $result;
+        $inputs['file_size'] = $fileSize;
+        $inputs['file_type'] = $fileFormat;
+        $inputs['user_id'] = auth()->user()->id;
+        $file = TicketFile::create($inputs);
+
         return to_route('customer.profile.my-tickets')->with('swal-success', '  تیکت شما با موفقیت ثبت شد');
     }
 

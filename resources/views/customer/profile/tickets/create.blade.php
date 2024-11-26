@@ -41,7 +41,7 @@
 
 
                         <section class="my-3">
-                            <form action="{{ route('customer.profile.my-tickets.store') }}" method="post">
+                            <form action="{{ route('customer.profile.my-tickets.store') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <section class="row">
                                     <section class="col-12 col-md-4">

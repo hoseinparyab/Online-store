@@ -204,6 +204,7 @@ return [
         'delivery_id' => 'نحوه ارسال',
         'address_id' => 'آدرس',
         'copan' => 'کد تخفیف',
+        'subject' => 'عنوان',
 
     ],
 ];
