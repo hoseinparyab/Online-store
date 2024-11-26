@@ -130,9 +130,17 @@ class TicketController extends Controller
         return redirect()->route('admin.ticket.index')->with('swal-success', '  پاسخ شما با موفقیت ثبت شد');
 
     }
-    public function change(Ticket $ticket){
-        $ticket->status = $ticket->status == 0 ? 1 : 0;
+    public function change(Ticket $ticket)
+    {
+        if ($ticket->status == 1) {
+            return redirect()->back()
+                ->with('swal-error', 'تیکت بسته شده و قابل بازگشایی نیست');
+        }
+
+        $ticket->status = 1;
         $result = $ticket->save();
-        return redirect()->route('admin.ticket.index')->with('swal-success', 'تغییر شما با موفقیت حذف شد');
+
+        return redirect()->back()
+            ->with('swal-success', 'تیکت با موفقیت بسته شد');
     }
 }
