@@ -481,6 +481,8 @@ Route::namespace('Profile')->group(function () {
     Route::get('my-tickets/show/{ticket}', [ProfileTicketController::class, 'show'])->name('customer.profile.my-tickets.show');
     Route::post('my-tickets/answer/{ticket}', [ProfileTicketController::class, 'answer'])->name('customer.profile.my-tickets.answer');
     Route::get('my-tickets/change/{ticket}', [ProfileTicketController::class, 'change'])->name('customer.profile.my-tickets.change');
+    Route::get('my-tickets/create', [ProfileTicketController::class, 'create'])->name('customer.profile.my-tickets.create');
+    Route::post('my-tickets/store', [ProfileTicketController::class, 'store'])->name('customer.profile.my-tickets.store');
 
 });
 

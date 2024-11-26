@@ -24,7 +24,7 @@
                                     <span>تاریخچه تیکت ها</span>
                                 </h2>
                                 <section class="content-header-link m-2">
-                                    <a href="#" class="btn btn-success text-white">ارسال تیکت جدید</a>
+                                    <a href="{{ route('customer.profile.my-tickets.create') }}" class="btn btn-success text-white">ارسال تیکت جدید</a>
                                 </section>
                             </section>
                         </section>
