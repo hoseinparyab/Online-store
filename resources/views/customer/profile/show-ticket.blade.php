@@ -24,7 +24,8 @@
                                 <span>تاریخچه تیکت </span>
                             </h2>
                             <section class="content-header-link m-2">
-                                <a href="{{ route('customer.profile.my-tickets') }}" class="btn btn-danger text-white">بازگشت</a>
+                                <a href="{{ route('customer.profile.my-tickets') }}"
+                                    class="btn btn-danger text-white">بازگشت</a>
                             </section>
                         </section>
                     </section>
@@ -45,13 +46,36 @@
                             </section>
                         </section>
 
-                        <section>
-                            <form action="{{ route('admin.ticket.answer', $ticket->id) }}" method="post">
+
+
+                        <hr>
+
+                        <div class="border my-2">
+                            @foreach ($ticket->children as $child)
+
+                            <section class="card m-4">
+                                <section class="card-header bg-light d-flex justify-content-between">
+                                   <div> {{ $child->user->first_name . ' ' . $child->user->last_name }}</div>
+                                    <small>{{ jdate($child->created_at) }}</small>
+                                </section>
+                                <section class="card-body">
+                                    <p class="card-text">
+                                        {{ $child->description }}
+                                    </p>
+                                </section>
+                            </section>
+                            @endforeach
+                        </div>
+
+
+
+                        <section class="my-3">
+                            <form action="{{ route('customer.profile.my-tickets.answer', $ticket->id) }}" method="post">
                                 @csrf
                                 <section class="row">
                                     <section class="col-12">
                                         <div class="form-group">
-                                            <label for="">پاسخ تیکت </label>
+                                            <label for="" class="my-2">پاسخ تیکت </label>
                                             ‍<textarea class="form-control form-control-sm" rows="4"
                                                 name="description">{{ old('description') }}</textarea>
                                         </div>
@@ -63,7 +87,7 @@
                                         </span>
                                         @enderror
                                     </section>
-                                    <section class="col-12">
+                                    <section class="col-12 my-3">
                                         <button class="btn btn-primary btn-sm">ثبت</button>
                                     </section>
                                 </section>

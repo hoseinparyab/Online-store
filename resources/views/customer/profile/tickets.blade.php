@@ -65,16 +65,24 @@
                                                 </td>
                                                 <td>{{ $ticket->parent->subject ?? '-' }}</td>
                                                 <td class="width-16-rem text-left">
-                                                    <a href="{{ route('customer.profile.my-tickets.show', $ticket->id) }}"
-                                                        class="btn btn-info btn-sm"><i class="fa fa-eye"></i> مشاهده</a>
                                                     @if ($ticket->status == 0)
-                                                        <a href="{{ route('customer.profile.my-tickets.change', $ticket->id) }}"
-                                                            class="btn btn-warning btn-sm">
-                                                            <i class="fa fa-check"></i> بستن
+                                                        <a href="{{ route('customer.profile.my-tickets.show', $ticket->id) }}"
+                                                            class="btn btn-info btn-sm">
+                                                            <i class="fa fa-eye"></i>
                                                         </a>
                                                     @else
                                                         <button class="btn btn-secondary btn-sm" disabled>
-                                                            <i class="fa fa-lock"></i> بسته شده
+                                                            <i class="fa fa-lock"></i>
+                                                        </button>
+                                                    @endif
+                                                    @if ($ticket->status == 0)
+                                                        <a href="{{ route('customer.profile.my-tickets.change', $ticket->id) }}"
+                                                            class="btn btn-warning btn-sm">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
+                                                    @else
+                                                        <button class="btn btn-secondary btn-sm" disabled>
+                                                            <i class="fa fa-lock"></i>
                                                         </button>
                                                     @endif
                                                 </td>
