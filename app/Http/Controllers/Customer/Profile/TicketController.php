@@ -8,12 +8,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Ticket\TicketCategory;
 use App\Models\Ticket\TicketPriority;
 use App\Http\Requests\Customer\Profile\StoreTicketRequest;
+use App\Http\Requests\Customer\Profile\StoreAnswerTicketRequest;
 
 class TicketController extends Controller
 {
     public function index() {
 
-        $tickets = auth()->user()->tickets;
+        $tickets = auth()->user()->tickets()->whereNull('ticket_id')->get();
         return view('customer.profile.tickets.tickets',compact('tickets'));
     }
     public function show(Ticket $ticket)
@@ -34,7 +35,7 @@ class TicketController extends Controller
         return redirect()->back()->with('swal-success', 'تیکت با موفقیت بسته شد');
     }
 
-    public function answer(StoreTicketRequest $request, Ticket $ticket)
+    public function answer(StoreAnswerTicketRequest $request, Ticket $ticket)
     {
 
         $inputs = $request->all();
@@ -56,6 +57,14 @@ class TicketController extends Controller
         $ticketPriorities = TicketPriority::all();
         return view('customer.profile.tickets.create', compact('ticketPriorities' , 'ticketCategories'));
 
+    }
+    public function store(StoreTicketRequest $request)
+    {
+        $inputs = $request->all();
+        $inputs['reference_id'] = 1;
+        $inputs['user_id'] = auth()->user()->id;
+        $ticket = Ticket::create($inputs);
+        return to_route('customer.profile.my-tickets')->with('swal-success', '  تیکت شما با موفقیت ثبت شد');
     }
 
 }

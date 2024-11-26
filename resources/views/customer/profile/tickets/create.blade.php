@@ -50,7 +50,7 @@
                                             ‍<input class="form-control form-control-sm" rows="4" name="subject"
                                                 value="{{ old('subject') }}" />
                                         </div>
-                                        @error('description')
+                                        @error('subject')
                                         <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                             <strong>
                                                 {{ $message }}
@@ -83,17 +83,17 @@
                                     <section class="col-12 col-md-4">
                                         <div class="form-group">
                                             <label for="">انتخاب اولویت</label>
-                                            <select name="category_id" id="" class="form-control form-control-sm">
+                                            <select name="priority_id" id="" class="form-control form-control-sm">
                                                 <option value="">دسته را انتخاب کنید</option>
                                                 @foreach ($ticketPriorities as $ticketPriority)
                                                 <option value="{{ $ticketPriority->id }}"
-                                                    @if(old('category_id')==$ticketPriority->id) selected @endif>{{
+                                                    @if(old('priority_id')==$ticketPriority->id) selected @endif>{{
                                                     $ticketPriority->name }}</option>
                                                 @endforeach
 
                                             </select>
                                         </div>
-                                        @error('category_id')
+                                        @error('priority_id')
                                         <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                             <strong>
                                                 {{ $message }}
