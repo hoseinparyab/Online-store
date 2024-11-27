@@ -28,7 +28,7 @@ class StoreTicketRequest extends FormRequest
             'description' => 'required|min:2|max:1000|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,?؟ ]+$/u',
             'priority_id' => 'required|min:1|max:100000000|regex:/^[0-9]+$/u|exists:ticket_priorities,id',
             'category_id' => 'required|min:1|max:100000000|regex:/^[0-9]+$/u|exists:ticket_categories,id',
-            'file' => 'required|mimes:png,jpg,jpeg,gif',
+            'file' => 'mimes:png,jpg,jpeg,gif',
 
         ];
     }

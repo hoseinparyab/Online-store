@@ -42,6 +42,26 @@
                 </section>
             </section>
 
+            <div class="border my-2">
+                            @foreach ($ticket->children as $child)
+
+                            <section class="card m-4">
+                                <section class="card-header bg-light d-flex justify-content-between">
+                                    <div> {{ $child->user->first_name . ' ' . $child->user->last_name }} - پاسخ دهنده :
+                                        {{ $child->admin ? $child->admin->user->first_name . ' ' .
+                                        $child->admin->user->last_name : 'نامشخص' }}</div>
+                                    <small>{{ jdate($child->created_at) }}</small>
+                                </section>
+                                <section class="card-body">
+                                    <p class="card-text">
+                                        {{ $child->description }}
+                                    </p>
+                                </section>
+
+                            </section>
+                            @endforeach
+                        </div>
+
             <section>
                 <form action="{{ route('admin.ticket.answer', $ticket->id) }}" method="post">
                     @csrf

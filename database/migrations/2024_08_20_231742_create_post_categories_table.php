@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreatePostCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,14 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->string('slug')->unique()->nullable(); // اصلاح `unique`
-            $table->text('image'); // نوع داده مناسب برای ذخیره مسیر تصویر
+            $table->string('slug')->unique()->nullable();
+            $table->text('image');
             $table->tinyInteger('status')->default(0);
-            $table->text('tags'); // تغییر به text برای ذخیره رشته‌های طولانی یا چندگانه
+            $table->string('tags');
             $table->timestamps();
             $table->softDeletes();
         });
-
     }
 
     /**
@@ -36,4 +35,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('post_categories');
     }
-};
+}

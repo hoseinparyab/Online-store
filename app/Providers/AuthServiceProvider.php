@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Auth::loginUsingId(2);
+        Auth::loginUsingId(1);
         $this->registerPolicies();
         Gate::define('update-post',[PostPolicy::class, 'update']);
         //

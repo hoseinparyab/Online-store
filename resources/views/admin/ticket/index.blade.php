@@ -55,8 +55,7 @@
                             <td>{{ $ticket->subject }}</td>
                             <td>{{ $ticket->category->name }}</td>
                             <td>{{ $ticket->priority->name }}</td>
-                            <td>{{ $ticket->admin->user->first_name . ' ' . $ticket->admin->user->last_name }}</td>
-                            <td>{{ $ticket->parent->subject ?? '-' }}</td>
+                            <td>{{ $ticket->admin ? $ticket->admin->user->first_name . ' ' . $ticket->admin->user->last_name : 'نامشخص' }}                            <td>{{ $ticket->parent->subject ?? '-' }}</td>
                             <td class="width-16-rem text-left">
                                 <a href="{{ route('admin.ticket.show', $ticket->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> مشاهده</a>
                                 <a href="{{ route('admin.ticket.change', $ticket->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-check"></i> {{ $ticket->status == 1 ? 'باز کردن' : 'بستن' }}</a>

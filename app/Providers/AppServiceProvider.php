@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Auth::loginUsingId(2);
+        Auth::loginUsingId(1);
 
         view()->composer('admin.layouts.header',function($view){
             $view -> with('unseenComments',Comment::where('seen',0)->get());

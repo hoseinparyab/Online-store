@@ -62,7 +62,9 @@
 
                             <section class="card m-4">
                                 <section class="card-header bg-light d-flex justify-content-between">
-                                    <div> {{ $child->user->first_name . ' ' . $child->user->last_name }}</div>
+                                    <div> {{ $child->user->first_name . ' ' . $child->user->last_name }} - پاسخ دهنده :
+                                        {{ $child->admin ? $child->admin->user->first_name . ' ' .
+                                        $child->admin->user->last_name : 'نامشخص' }}</div>
                                     <small>{{ jdate($child->created_at) }}</small>
                                 </section>
                                 <section class="card-body">

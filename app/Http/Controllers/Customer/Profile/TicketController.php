@@ -62,7 +62,6 @@ class TicketController extends Controller
         DB::transaction(function () use ($request, $fileService) {
             //ticket body
             $inputs = $request->all();
-            $inputs['reference_id'] = 1;
             $inputs['user_id'] = auth()->user()->id;
             $ticket = Ticket::create($inputs);
 

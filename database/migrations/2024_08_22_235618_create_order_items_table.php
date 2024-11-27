@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateOrderItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
             $table->longText('product');
             $table->foreignId('amazing_sale_id')->nullable()->constrained('amazing_sales')->onUpdate('cascade')->onDelete('cascade');
-            $table->longText('amazing_sale_object')->nullable();
+            $table->longText('amazing_sale_object');
             $table->decimal('amazing_sale_discount_amount', 20, 3)->nullable();
             $table->integer('number')->default(1);
             $table->decimal('final_product_price', 20, 3)->nullable();
@@ -31,7 +31,6 @@ return new class extends Migration
         });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -41,4 +40,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('order_items');
     }
-};
+}
