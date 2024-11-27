@@ -44,6 +44,13 @@
                                     {{ $ticket->description }}
                                 </p>
                             </section>
+                            @if($ticket->file()->count() > 0)
+                            <section class="card-footer">
+                                <a class="btn btn-success" href="{{ asset($ticket->file->file_path) }}" download>دانلود
+                                    ضمیمه</a>
+                            </section>
+                            @endif
+
                         </section>
 
 
@@ -55,7 +62,7 @@
 
                             <section class="card m-4">
                                 <section class="card-header bg-light d-flex justify-content-between">
-                                   <div> {{ $child->user->first_name . ' ' . $child->user->last_name }}</div>
+                                    <div> {{ $child->user->first_name . ' ' . $child->user->last_name }}</div>
                                     <small>{{ jdate($child->created_at) }}</small>
                                 </section>
                                 <section class="card-body">
@@ -63,6 +70,7 @@
                                         {{ $child->description }}
                                     </p>
                                 </section>
+
                             </section>
                             @endforeach
                         </div>
