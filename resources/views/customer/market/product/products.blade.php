@@ -14,6 +14,7 @@
 
                 <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
                     <form action="{{ route('customer.products') }}" method="get">
+                        <input type="hidden" name="sort" value="{{ request()->sort }}">
                         <!-- start sidebar nav-->
                         <section class="sidebar-nav">
                             <section class="sidebar-nav-item">
@@ -492,7 +493,8 @@
                     </section>
 
                     <section class="">
-                        <input class="sidebar-input-text" type="text" placeholder="جستجو بر اساس نام، برند ..."  value="{{ request()->search }}" name="search">
+                        <input class="sidebar-input-text" type="text" placeholder="جستجو بر اساس نام، برند ..."
+                            value="{{ request()->search }}" name="search">
                     </section>
                 </section>
 
@@ -509,69 +511,16 @@
                     </section>
 
                     <section class="sidebar-brand-wrapper">
+                        @foreach ($brands as $brand)
                         <section class="form-check sidebar-brand-item">
-                            <input class="form-check-input" type="checkbox" value="1" id="1">
-                            <label class="form-check-label d-flex justify-content-between" for="1">
-                                <span>شیائومی</span>
-                                <span>xiaomi</span>
+                            <input class="form-check-input" name="brands[]" type="checkbox" value="{{ $brand->id }}" id="{{ $brand->id }}">
+                            <label class="form-check-label d-flex justify-content-between" for="{{ $brand->id }}">
+                                <span>{{ $brand->persian_name }}</span>
+                                <span>{{ $brand->original_name }}</span>
                             </label>
                         </section>
+                        @endforeach
 
-                        <section class="form-check sidebar-brand-item">
-                            <input class="form-check-input" type="checkbox" value="2" id="2">
-                            <label class="form-check-label d-flex justify-content-between" for="2">
-                                <span>سامسونگ</span>
-                                <span>samsung</span>
-                            </label>
-                        </section>
-
-                        <section class="form-check sidebar-brand-item">
-                            <input class="form-check-input" type="checkbox" value="3" id="3">
-                            <label class="form-check-label d-flex justify-content-between" for="3">
-                                <span>سونی</span>
-                                <span>sony</span>
-                            </label>
-                        </section>
-
-                        <section class="form-check sidebar-brand-item">
-                            <input class="form-check-input" type="checkbox" value="4" id="4">
-                            <label class="form-check-label d-flex justify-content-between" for="4">
-                                <span>امرسان</span>
-                                <span>emersun</span>
-                            </label>
-                        </section>
-
-                        <section class="form-check sidebar-brand-item">
-                            <input class="form-check-input" type="checkbox" value="5" id="5">
-                            <label class="form-check-label d-flex justify-content-between" for="5">
-                                <span>ال جی</span>
-                                <span>lg</span>
-                            </label>
-                        </section>
-
-                        <section class="form-check sidebar-brand-item">
-                            <input class="form-check-input" type="checkbox" value="6" id="6">
-                            <label class="form-check-label d-flex justify-content-between" for="6">
-                                <span>جی پلاس</span>
-                                <span>g+</span>
-                            </label>
-                        </section>
-
-                        <section class="form-check sidebar-brand-item">
-                            <input class="form-check-input" type="checkbox" value="7" id="7">
-                            <label class="form-check-label d-flex justify-content-between" for="7">
-                                <span>پارس خزر</span>
-                                <span>pars khazar</span>
-                            </label>
-                        </section>
-
-                        <section class="form-check sidebar-brand-item">
-                            <input class="form-check-input" type="checkbox" value="8" id="8">
-                            <label class="form-check-label d-flex justify-content-between" for="8">
-                                <span>دیاموند</span>
-                                <span>diamond</span>
-                            </label>
-                        </section>
                     </section>
                 </section>
 
@@ -626,17 +575,17 @@
                     <section class="sort ">
                         <span>مرتب سازی بر اساس : </span>
                         <a class="btn {{ request()->sort == 1 ? 'btn-info' : ''  }} btn-sm px-1 py-0"
-                            href="{{ route('customer.products', ['search' => request()->search, 'sort' => '1']) }}">جدیدترین</a>
+                            href="{{ route('customer.products', ['search' => request()->search, 'sort' => '1', 'min_price' => request()->min_price, 'max_price' => request()->max_price]) }}">جدیدترین</a>
                         <a class="btn {{ request()->sort == 2 ? 'btn-info' : ''  }} btn-sm px-1 py-0"
-                            href="{{ route('customer.products', ['search' => request()->search, 'sort' => '2']) }}">گران
+                            href="{{ route('customer.products', ['search' => request()->search, 'sort' => '2', 'min_price' => request()->min_price, 'max_price' => request()->max_price]) }}">گران
                             ترین</a>
                         <a class="btn {{ request()->sort == 3 ? 'btn-info' : ''  }} btn-sm px-1 py-0"
-                            href="{{ route('customer.products', ['search' => request()->search, 'sort' => '3']) }}">ارزان
+                            href="{{ route('customer.products', ['search' => request()->search, 'sort' => '3', 'min_price' => request()->min_price, 'max_price' => request()->max_price]) }}">ارزان
                             ترین</a>
                         <a class="btn {{ request()->sort == 4 ? 'btn-info' : ''  }} btn-sm px-1 py-0"
-                            href="{{ route('customer.products', ['search' => request()->search, 'sort' => '4']) }}">پربازدیدترین</a>
+                            href="{{ route('customer.products', ['search' => request()->search, 'sort' => '4', 'min_price' => request()->min_price, 'max_price' => request()->max_price]) }}">پربازدیدترین</a>
                         <a class="btn {{ request()->sort == 5 ? 'btn-info' : ''  }} btn-sm px-1 py-0"
-                            href="{{ route('customer.products', ['search' => request()->search, 'sort' => '5']) }}">پرفروش
+                            href="{{ route('customer.products', ['search' => request()->search, 'sort' => '5', 'min_price' => request()->min_price, 'max_price' => request()->max_price]) }}">پرفروش
                             ترین</a>
                     </section>
 
