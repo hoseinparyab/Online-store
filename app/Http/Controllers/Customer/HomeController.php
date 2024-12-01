@@ -29,14 +29,14 @@ class HomeController extends Controller
         $offerProducts = Product::latest()->take(10)->get();
         return view('customer.home', compact('slideShowImages', 'topBanners', 'middleBanners', 'bottomBanner', 'brands', 'mostVisitedProducts', 'offerProducts'));
     }
-    public function products(Request $request){
+    public function products(Request $request)
+    {
 
-        switch ($request -> sort)
-        {
-            case "1" :
-            $column = "created_at";
-            $direction ="DESC";
-            break;
+        switch ($request->sort) {
+            case "1":
+                $column = "created_at";
+                $direction = "DESC";
+                break;
 
             case "2":
                 $column = "price";
@@ -58,14 +58,23 @@ class HomeController extends Controller
                 $column = "created_at";
                 $direction = "ASC";
         }
-        if ($request->search){
-            $products = Product::where('name','LIKE',"%".$request ->search ."%" )-> orderBy($column ,$direction)->get();
+        if ($request->search) {
 
+            $query = Product::where('name', 'LIKE', "%" . $request->search . "%")->orderBy($column, $direction);
+        } else {
+            $query = Product::orderBy($column, $direction);
         }
-        else{
-            $products = Product::orderBy($column, $direction)->get();
+        $products = $request->max_price && $request->min_price ? $query->whereBetween('price', [$request->max_price, $request->min_price]) :
+            $query->when($request->min_price, function ($query) use ($request) {
 
-        }
-         return view('customer.market.product.products' , compact('products'));
+                $query->where('price', '>=', $request->min_price)->get();
+            })->when($request->max_price,function ($query) use ($request) {
+            $query->where('price', '<=', $request->max_price)->get();
+
+            } )->when(!($request->max_price && $request->min_pric),function($query){
+                $query->get();
+            });
+            $products =$products->get();
+        return view('customer.market.product.products', compact('products'));
     }
 }
