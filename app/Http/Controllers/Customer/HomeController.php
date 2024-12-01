@@ -81,7 +81,8 @@ class HomeController extends Controller
 
             $products->whereIn('brand_id', $request->brands);
         });
-        $products = $products->get();
+        $products = $products->paginate(1);
+        $products->appends($request->query());
 
         //get selected brands
         $selectedBrandsArray = [];
