@@ -29,4 +29,11 @@ class HomeController extends Controller
         $offerProducts = Product::latest()->take(10)->get();
         return view('customer.home', compact('slideShowImages', 'topBanners', 'middleBanners', 'bottomBanner', 'brands', 'mostVisitedProducts', 'offerProducts'));
     }
+    public function products(Request $request){
+        if ($request->search){
+            $products = Product::where('name','LIKE',"%".$request ->search ."%" )->get();
+
+        }
+         return view('customer.market.product.products' , compact('products'));
+    }
 }
