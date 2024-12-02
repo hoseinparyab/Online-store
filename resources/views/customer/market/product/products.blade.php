@@ -54,7 +54,6 @@
                     </section>
 
                     <section class="sidebar-brand-wrapper">
-                        {{-- {{ dd(request()->brands) }} --}}
                         @foreach ($brands as $brand)
                         <section class="form-check sidebar-brand-item">
                             <input class="form-check-input" name="brands[]" @if (request()->brands &&
@@ -198,12 +197,8 @@
                         @endforelse
 
 
-                        <section class="col-12">
-                            <section class="my-4 d-flex justify-content-center">
-                                <nav>
-                                    {{ $products->links('pagination::bootstrap-5') }}
-                                </nav>
-                            </section>
+                        <section class="my-4 d-flex justify-content-center border-0">
+                            {{ $products->links('pagination::bootstrap-5') }}
                         </section>
 
                     </section>
