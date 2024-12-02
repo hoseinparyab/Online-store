@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Content\Banner;
 use App\Models\Market\Product;
 use App\Http\Controllers\Controller;
+use App\Models\Market\ProductCategory;
 // use Illuminate\Support\Facades\Auth;
 
 
@@ -31,11 +32,13 @@ class HomeController extends Controller
     }
     public function products(Request $request)
     {
-        // get brands
+        //TODO: get brands
         $brands = Brand::all();
+        // FIXME: getCategories
+        $categories = ProductCategory::wherenull('parent_id')->get();
 
-        // Switch for set sort for filtering
-
+        //TODO: Switch for set sort for filtering
+        //
         switch ($request->sort) {
             case "1":
                 $column = "created_at";
@@ -93,6 +96,6 @@ class HomeController extends Controller
             }
         }
 
-        return view('customer.market.product.products', compact('products', 'brands', 'selectedBrandsArray'));
+        return view('customer.market.product.products', compact('products', 'brands', 'selectedBrandsArray', 'categories'));
     }
 }
