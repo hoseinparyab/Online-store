@@ -56,7 +56,7 @@ class HomeController extends Controller
                 $direction = "DESC";
                 break;
             case "3":
-                $column = "pirce";
+                $column = "price";
                 $direction = "ASC";
                 break;
             case "4":
