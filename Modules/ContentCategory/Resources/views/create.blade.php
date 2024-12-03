@@ -144,7 +144,7 @@
                         </section>
 
 {{--
-                        {!! htmlFormSnippet() !!} v2 capcha
+                        {!! htmlFormSnippet() !!} FIXME: v2-capcha
                         <section>
                             @error('g-recaptcha-response')
                             <span class="alert_required bg-danger text-white p-1 rounded" role="alert">

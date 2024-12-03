@@ -12,6 +12,7 @@ use App\Models\User\Permission;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Ticket\TicketAdmin;
 use Laravel\Jetstream\HasProfilePhoto;
+use Nagy\LaravelRating\Traits\CanRate;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -27,6 +28,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasPermissionsTrait;
+    use CanRate;
 
     /**
      * The attributes that are mass assignable.
