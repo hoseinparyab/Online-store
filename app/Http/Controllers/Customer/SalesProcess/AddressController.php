@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer\SalesProcess;
 
+use App\Models\Market\City;
 use App\Models\Market\Order;
 use Illuminate\Http\Request;
 use App\Models\Market\Address;
@@ -22,6 +23,7 @@ class AddressController extends Controller
         //check profile
         $user = Auth::user();
         $provinces = Province::all();
+        $cities = City::all();
         $cartItems = CartItem::where('user_id', $user->id)->get();
         $deliveryMethods = Delivery::where('status', 1)->get();
 
@@ -29,7 +31,7 @@ class AddressController extends Controller
             return redirect()->route('customer.sales-process.cart');
         }
 
-        return view('customer.sales-process.address-and-delivery', compact('cartItems', 'provinces', 'deliveryMethods'));
+        return view('customer.sales-process.address-and-delivery', compact('cartItems', 'provinces', 'deliveryMethods', 'cities'));
     }
 
 

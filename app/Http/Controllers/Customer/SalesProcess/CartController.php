@@ -37,14 +37,13 @@ class CartController extends Controller
         return redirect()->route('customer.sales-process.address-and-delivery');
     }
 
-
     public function addToCart(Product $product, Request $request)
     {
         if (Auth::check()) {
             $request->validate([
                 'color' => 'nullable|exists:product_colors,id',
                 'guarantee' => 'nullable|exists:guarantees,id',
-                'number' => 'numeric|min:1|max:5'
+                'number' => 'numeric|min:1|max:5',
             ]);
 
             $cartItems = CartItem::where('product_id', $product->id)->where('user_id', auth()->user()->id)->get();
@@ -68,8 +67,8 @@ class CartController extends Controller
             $inputs = [];
             $inputs['color_id'] = $request->color;
             $inputs['guarantee_id'] = $request->guarantee;
-            $inputs['user_id'] =  auth()->user()->id;
-            $inputs['product_id'] =  $product->id;
+            $inputs['user_id'] = auth()->user()->id;
+            $inputs['product_id'] = $product->id;
 
             CartItem::create($inputs);
 
@@ -78,7 +77,6 @@ class CartController extends Controller
             return redirect()->route('auth.customer.login-register-form');
         }
     }
-
 
     public function removeFromCart(CartItem $cartItem)
     {

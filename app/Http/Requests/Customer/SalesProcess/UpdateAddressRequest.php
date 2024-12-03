@@ -20,7 +20,7 @@ class UpdateAddressRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
@@ -35,6 +35,14 @@ class UpdateAddressRequest extends FormRequest
             'recipient_first_name' => 'required_with:receiver,on',
             'recipient_last_name' => 'required_with:receiver,on',
             'mobile' => 'required_with:receiver,on',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'unit' => 'واحد',
+            'mobile' => 'موبایل گیرنده',
         ];
     }
 }

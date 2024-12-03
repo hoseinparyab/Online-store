@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
-    use HasFactory;
+    public function Province()
+    {
+        return $this->hasMany(Province::class);
+    }
 }
