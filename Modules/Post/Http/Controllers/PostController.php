@@ -1,52 +1,51 @@
 <?php
 
-namespace App\Http\Controllers\admin\content;
+namespace Modules\Post\Http\Controllers;
 
-use App\Models\Content\Post;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Content\PostCategory;
-use Illuminate\Support\Facades\Gate;
 use App\Http\Services\Image\ImageService;
-use App\Http\Requests\Admin\Content\PostRequest;
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Modules\ContentCategory\Entities\PostCategory;
+use Modules\Post\Entities\Post;
+use Modules\Post\Http\Requests\CreatePostRequest;
+use Modules\Post\Http\Requests\UpdatePostRequest;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Renderable
      */
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->simplePaginate(15);
-        // return view('admin.content.post.index', compact('posts'));
+        return view('post::index', compact('posts'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Renderable
      */
     public function create()
     {
         $postCategories = PostCategory::all();
-        return view('admin.content.post.create', compact('postCategories'));
+        return view('post::create', compact('postCategories'));
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Renderable
      */
-    public function store(PostRequest $request, ImageService $imageService)
+    public function store(CreatePostRequest $request, ImageService $imageService)
     {
+
         $inputs = $request->all();
 
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
+        $inputs['published_at'] = date("Y-m-d H:i:s", (int) $realTimestampStart);
 
         if ($request->hasFile('image')) {
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post');
@@ -62,45 +61,38 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Show the specified resource.
+     * @param int $id
+     * @return Renderable
      */
     public function show($id)
     {
-        //
+        return view('post::show');
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Renderable
      */
     public function edit(Post $post)
     {
         $postCategories = PostCategory::all();
-        return view('admin.content.post.edit', compact('post', 'postCategories'));
+        return view('post::edit', compact('post', 'postCategories'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Renderable
      */
-    public function update(PostRequest $request, Post $post, ImageService $imageService)
+    public function update(UpdatePostRequest $request, Post $post, ImageService $imageService)
     {
-        if(!Gate::allows('update-post' ,$post))
-        {
-            abort(403);
-        }
         $inputs = $request->all();
         //date fixed
         $realTimestampStart = substr($request->published_at, 0, 10);
-        $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
+        $inputs['published_at'] = date("Y-m-d H:i:s", (int) $realTimestampStart);
 
         if ($request->hasFile('image')) {
             if (!empty($post->image)) {
@@ -120,22 +112,19 @@ class PostController extends Controller
             }
         }
         $post->update($inputs);
-        return redirect()->route('admin.content.post.index')->with('swal-success', 'پست  شما با موفقیت ویرایش شد');;
+        return redirect()->route('admin.content.post.index')->with('swal-success', 'پست  شما با موفقیت ویرایش شد');
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Renderable
      */
     public function destroy(Post $post)
     {
         $result = $post->delete();
         return redirect()->route('admin.content.post.index')->with('swal-success', 'پست  شما با موفقیت حذف شد');
     }
-
-
 
     public function status(Post $post)
     {
@@ -152,7 +141,6 @@ class PostController extends Controller
             return response()->json(['status' => false]);
         }
     }
-
 
     public function commentable(Post $post)
     {

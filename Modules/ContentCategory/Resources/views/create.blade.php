@@ -1,8 +1,31 @@
-@extends('admin.layouts.master')
+@extends('contentcategory::layouts.master')
 
 @section('head-tag')
 <title>دسته بندی</title>
-
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+<script>
+    function callbackThen(response)
+    {
+        response.json().then(function(data){
+            console.log(data);
+            if(data.success && data.score > 0.5){
+                console.log('valid recaptcha');
+            }
+            else{
+                document.getElementById('form').addEventListener('submit', function(e){
+                    e.preventDefault();
+                })
+            }
+        })
+    }
+    function callbackCatch(error){
+        document.getElementById('captcha_error').classList().remove('d-none')
+    }
+</script>
+{!! htmlScriptTagJsApi([
+'callback_then' => 'callbackThen',
+'callback_catch' => 'callbackCatch'
+]) !!}
 
 @endsection
 
@@ -10,20 +33,20 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item font-size-12"> <a href="#">خانه</a></li>
-      <li class="breadcrumb-item font-size-12"> <a href="#">بخش فروش</a></li>
-      <li class="breadcrumb-item font-size-12"> <a href="#">دسته بندی</a></li>
-      <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد دسته بندی</li>
+        <li class="breadcrumb-item font-size-12"> <a href="#">خانه</a></li>
+        <li class="breadcrumb-item font-size-12"> <a href="#">بخش فروش</a></li>
+        <li class="breadcrumb-item font-size-12"> <a href="#">دسته بندی</a></li>
+        <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد دسته بندی</li>
     </ol>
-  </nav>
+</nav>
 
 
-  <section class="row">
+<section class="row">
     <section class="col-12">
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                  ایجاد دسته بندی
+                    ایجاد دسته بندی
                 </h5>
             </section>
 
@@ -32,28 +55,32 @@
             </section>
 
             <section>
-                <form action="{{ route('admin.content.category.store') }}" method="post" enctype="multipart/form-data" id="form">
+                <h1 class="text-danger d-none" id="captcha_error">اعتبار سنجی کپچا با خطا روبه رو شد</h1>
+                <form action="{{ route('admin.content.category.store') }}" method="post" enctype="multipart/form-data"
+                    id="form">
                     @csrf
                     <section class="row">
 
                         <section class="col-12 col-md-6 my-2">
                             <div class="form-group">
                                 <label for="name">نام دسته</label>
-                                <input type="text" class="form-control form-control-sm" name="name" id="name" value="{{ old('name') }}">
+                                <input type="text" class="form-control form-control-sm" name="name" id="name"
+                                    value="{{ old('name') }}">
                             </div>
                             @error('name')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
                             @enderror
                         </section>
 
                         <section class="col-12 col-md-6 my-2">
                             <div class="form-group">
                                 <label for="tags">تگ ها</label>
-                                <input type="hidden" class="form-control form-control-sm"  name="tags" id="tags" value="{{ old('tags') }}">
+                                <input type="hidden" class="form-control form-control-sm" name="tags" id="tags"
+                                    value="{{ old('tags') }}">
                                 <select class="select2 form-control form-control-sm" id="select_tags" multiple>
 
                                 </select>
@@ -64,15 +91,15 @@
                                     {{ $message }}
                                 </strong>
                             </span>
-                        @enderror
+                            @enderror
                         </section>
 
                         <section class="col-12 col-md-6 my-2">
                             <div class="form-group">
                                 <label for="status">وضعیت</label>
                                 <select name="status" id="" class="form-control form-control-sm" id="status">
-                                    <option value="0" @if(old('status') == 0) selected @endif>غیرفعال</option>
-                                    <option value="1" @if(old('status') == 1) selected @endif>فعال</option>
+                                    <option value="0" @if(old('status')==0) selected @endif>غیرفعال</option>
+                                    <option value="1" @if(old('status')==1) selected @endif>فعال</option>
                                 </select>
                             </div>
                             @error('status')
@@ -81,7 +108,7 @@
                                     {{ $message }}
                                 </strong>
                             </span>
-                        @enderror
+                            @enderror
                         </section>
 
                         <section class="col-12 col-md-6 my-2">
@@ -95,14 +122,15 @@
                                     {{ $message }}
                                 </strong>
                             </span>
-                        @enderror
+                            @enderror
                         </section>
 
 
                         <section class="col-12">
                             <div class="form-group">
                                 <label for="">توضیحات</label>
-                                <textarea name="description" id="description"  class="form-control form-control-sm" rows="6">
+                                <textarea name="description" id="description" class="form-control form-control-sm"
+                                    rows="6">
                                     {{ old('description') }}
                                 </textarea>
                             </div>
@@ -112,12 +140,20 @@
                                     {{ $message }}
                                 </strong>
                             </span>
-                        @enderror
+                            @enderror
                         </section>
-                        @if ($errors->has('g-recaptcha-response'))
-                                        
-                        @endif
 
+{{--
+                        {!! htmlFormSnippet() !!} v2 capcha
+                        <section>
+                            @error('g-recaptcha-response')
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                            @enderror
+                        </section> --}}
                         <section class="col-12 my-3">
                             <button class="btn btn-primary btn-sm">ثبت</button>
                         </section>
@@ -133,13 +169,13 @@
 
 @section('script')
 
-    <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
-    <script>
-        CKEDITOR.replace('description');
-    </script>
+<script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
+<script>
+    CKEDITOR.replace('description');
+</script>
 
-    <script>
-        $(document).ready(function () {
+<script>
+    $(document).ready(function () {
             var tags_input = $('#tags');
             var select_tags = $('#select_tags');
             var default_tags = tags_input.val();
@@ -165,6 +201,6 @@
                 }
             })
         })
-    </script>
+</script>
 
 @endsection

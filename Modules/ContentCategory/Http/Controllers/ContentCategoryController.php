@@ -1,62 +1,43 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Content;
+namespace Modules\ContentCategory\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\PostCategoryRequest;
 use App\Http\Services\Image\ImageService;
-use App\Models\Content\PostCategory;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\ContentCategory\Entities\PostCategory;
+use Modules\ContentCategory\Http\Requests\StoreCategory;
+use Modules\ContentCategory\Http\Requests\UpdateCategory;
 
-class CategoryController extends Controller
+class ContentCategoryController extends Controller
 {
-
-    function __construct()
-    {
-        // $this->middleware('role:operator')->only(['edit']);
-        // $this->middleware('role:operator')->only(['create']);
-        // $this->middleware('role:accounting')->only(['store']);
-        // $this->middleware('role:operator')->only(['edit']);
-        $this->middleware('can:createCategory')->only(['index']);
-        $this->middleware('can:update-category')->only(['edit', 'update']);
-    }
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Renderable
      */
     public function index()
     {
-        $user = auth()->user();
-        // if ($user->can('show-category')) {
 
         $postCategories = PostCategory::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.content.category.index', compact('postCategories'));
-        // } else {
-        //     abort(403);
-        // }
-
+        return view('contentcategory::index', compact('postCategories'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Renderable
      */
     public function create()
     {
-        // $imageCache = new ImageCacheService();
-        // return $imageCache->cache('1.png');
-        return view('admin.content.category.create');
+        return view('contentcategory::create');
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Renderable
      */
-    public function store(PostCategoryRequest $request, ImageService $imageService)
+    public function store(StoreCategory $request, ImageService $imageService)
     {
         $inputs = $request->all();
         if ($request->hasFile('image')) {
@@ -75,35 +56,32 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Show the specified resource.
+     * @param int $id
+     * @return Renderable
      */
     public function show($id)
     {
-        //
+        return view('contentcategory::show');
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Renderable
      */
     public function edit(PostCategory $postCategory)
     {
-        return view('admin.content.category.edit', compact('postCategory'));
+        return view('contentcategory::edit', compact('postCategory'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Renderable
      */
-    public function update(PostCategoryRequest $request, PostCategory $postCategory, ImageService $imageService)
+    public function update(UpdateCategory $request, PostCategory $postCategory, ImageService $imageService)
     {
         $inputs = $request->all();
 
@@ -131,30 +109,12 @@ class CategoryController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Renderable
      */
     public function destroy(PostCategory $postCategory)
     {
         $result = $postCategory->delete();
         return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی شما با موفقیت حذف شد');
     }
-
-    public function status(PostCategory $postCategory)
-    {
-
-        $postCategory->status = $postCategory->status == 0 ? 1 : 0;
-        $result = $postCategory->save();
-        if ($result) {
-            if ($postCategory->status == 0) {
-                return response()->json(['status' => true, 'checked' => false]);
-            } else {
-                return response()->json(['status' => true, 'checked' => true]);
-            }
-        } else {
-            return response()->json(['status' => false]);
-        }
-    }
 }
-
