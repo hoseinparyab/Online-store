@@ -568,6 +568,8 @@
 
 
 
+                        @auth
+                        @if(auth()->user()->isUserPurchedProduct($product->id)->count() > 0)
                         <!-- start rating -->
                         <section id="rating" class="content-header mt-2 mb-4">
                             <section class="d-flex justify-content-between align-items-center">
@@ -579,7 +581,6 @@
                                 </section>
                             </section>
                         </section>
-                        @auth
 
                         <section class="product-rating mb-4">
 
@@ -617,6 +618,7 @@
                             </div>
 
                         </section>
+                        @endif
                         @endauth
                         @guest
                         <section class="modal-body">

@@ -9,6 +9,7 @@ use App\Models\Market\Address;
 use App\Models\Market\Payment;
 use App\Models\Market\Product;
 use App\Models\User\Permission;
+use App\Models\Market\OrderItem;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Ticket\TicketAdmin;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -122,5 +123,18 @@ class User extends Authenticatable
     public function products()
     {
         return $this->belongsToMany(Product::class);
+    }
+    public function orderItems()  //TODO: hasManyThrough Relations for order products
+    {
+        return $this->hasManyThrough(OrderItem::class, Order::class);
+    }
+    public function isUserPurchedProduct($product_id)
+    {
+        $productIds = collect();
+        foreach ($this->orderItems()->where('product_id', $product_id)->get() as $item) {
+            $productIds->push($item->product_id);
+        }
+        $productIds = $productIds->unique();
+        return $productIds;
     }
 }
