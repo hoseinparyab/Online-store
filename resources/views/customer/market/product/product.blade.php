@@ -216,7 +216,9 @@
                                         </section>
                                         @endguest
                                         @auth
-                                        @if ($product->user->contains(auth()->user()->id))
+                                        @if ($product->compares->contains(function($compare, $key) {
+                                        return $compare->id === auth()->user()->compare->id;
+                                        }))
                                         <section class="product-add-to-compare position-relative" style="top: 0">
                                             <button type="button" class="btn btn-light btn-sm text-decoration-none"
                                                 data-url="{{ route('customer.market.add-to-compare', $product) }}"
