@@ -6,6 +6,7 @@ use App\Models\User\Role;
 use App\Models\Market\Order;
 use App\Models\Ticket\Ticket;
 use App\Models\Market\Address;
+use App\Models\Market\Compare;
 use App\Models\Market\Payment;
 use App\Models\Market\Product;
 use App\Models\User\Permission;
@@ -136,5 +137,10 @@ class User extends Authenticatable
         }
         $productIds = $productIds->unique();
         return $productIds;
+    }
+
+    public function compare()
+    {
+        return $this->hasOne(Compare::class);
     }
 }
