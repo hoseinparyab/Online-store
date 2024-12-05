@@ -80,4 +80,9 @@ class ProductController extends Controller
             return back()->with('alert-section-error', 'شما اجازه ثبت امتیاز ندارید - ابتدا باید محصول را خریداری نمایید');
         }
     }
+    public function viewApi()
+    {
+        return view('api.products');
+    }
+
 }

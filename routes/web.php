@@ -503,3 +503,5 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::get('/api-products', [MarketProductController::class, 'viewApi']);

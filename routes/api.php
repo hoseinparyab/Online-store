@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Api\ApiPostsController;
 use App\Http\Controllers\Api\ApiCommentsController;
 
@@ -33,5 +34,4 @@ Route::namespace('Api')->group(function(){
     Route::get('/comments/{id}', [ApiCommentsController::class, 'show']);
 });
 
-
-
+Route::get('/products', [ProductController::class, 'index']);
