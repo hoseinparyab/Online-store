@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\Notify;
 use App\Models\Notify\Email;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Services\Message\MessageService;
 use App\Http\Requests\Admin\Notify\EmailRequest;
+use App\Http\Services\Message\Email\EmailService;
 
 class EmailController extends Controller
 {
@@ -112,5 +114,22 @@ class EmailController extends Controller
         } else {
             return response()->json(['status' => false]);
         }
+    }
+    public function sendMail(Email $email)
+    {
+        $emailService = new EmailService();
+        $details = [
+            'title' => $email->subject,
+            'body' => $email->body
+        ];
+        $emailService->setDetails($details);
+        $emailService->setFrom('noreply@example.com', 'AmazonWebsite');
+        $emailService->setSubject($email->subject);
+        $emailService->setTo('hoseinparyab1@gmail.com');
+
+        $messagesService = new MessageService($emailService);
+
+        $messagesService->send();
+        return back()->with('swal-success', 'ایمیل شما با موفقیت ارسال شد');;
     }
 }
